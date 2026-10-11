@@ -35,6 +35,7 @@ scratch/
 *.synctex.gz
 *.out
 *.toc
+paper/manuscript_formatted.html
 
 # Operating System files
 .DS_Store

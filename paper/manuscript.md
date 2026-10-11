@@ -2,7 +2,7 @@
 
 **Authors**: Anonymous Authors (Under Academic Peer Review)  
 **Target Venue**: *IEEE Access* / *Sensors*  
-**Artifact Repository**: https://github.com/researcher/iot-cybersecurity-research  
+**Artifact Repository**: https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-  
 
 ---
 
@@ -179,7 +179,7 @@ To ensure that all observed advantages are statistically robust, Table 8 details
 This study presented a leak-free empirical evaluation of adaptive anomaly thresholding, un-contaminated reinforcement learning defensive response, post-quantum encryption, cryptographic integrity verification, and integrated end-to-end pipeline ablation on **CICIoT2023**. Excluded EWMA thresholding achieves strong anomaly detection (F1: 0.9014), DQN achieves 71.20% attack containment with a 0.77% false block rate, ML-KEM-768 provides sub-millisecond post-quantum security (0.4293 ms setup), HMAC-SHA-256 and Tamper-Evident Hash Chain Logging provide verifiable event integrity at sub-millisecond overhead, and the full integrated framework achieves an end-to-end F1-Score of 0.8968 with 80.65% attack containment at 0.3781 ms per event.
 
 All code, scripts, weights, and results are available for independent verification at:  
-`https://github.com/researcher/iot-cybersecurity-research`
+`https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-`
 
 ---
 
