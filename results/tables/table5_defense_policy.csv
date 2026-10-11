@@ -1,0 +1,7 @@
+Scenario,Policy,Cumulative Reward,Attack Containment (%),False Block Rate (%),Disruption Penalty,Latency (ms)
+Scenario_1_Heavy_Attack,DQN,28513.20 ± 122.92,71.26% ± 0.09%,0.63% ± 0.46%,53.20 ± 23.53,0.1160 ± 0.0052
+Scenario_1_Heavy_Attack,Q_Learning,17199.00 ± 3799.62,60.45% ± 11.91%,0.00% ± 0.00%,636.00 ± 854.76,0.0122 ± 0.0003
+Scenario_1_Heavy_Attack,Rule_Based,35402.00 ± 0.00,99.98% ± 0.00%,100.00% ± 0.00%,7290.00 ± 0.00,0.0123 ± 0.0033
+Scenario_2_Stealth_Attack,DQN,29506.00 ± 156.37,73.06% ± 0.09%,0.48% ± 0.39%,41.80 ± 19.55,0.1226 ± 0.0120
+Scenario_2_Stealth_Attack,Q_Learning,16661.60 ± 4096.27,59.27% ± 11.50%,0.00% ± 0.00%,615.00 ± 806.31,0.0122 ± 0.0002
+Scenario_2_Stealth_Attack,Rule_Based,35762.00 ± 0.00,99.98% ± 0.00%,100.00% ± 0.00%,7110.00 ± 0.00,0.0115 ± 0.0015

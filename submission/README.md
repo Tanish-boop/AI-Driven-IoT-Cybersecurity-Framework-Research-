@@ -9,8 +9,8 @@ This repository contains the complete source code, experimental protocols, train
 1. **Unsupervised Anomaly Detection**: Sample-level Dense Autoencoder ($L=1$) that eliminates sliding sequence window boundary leakage.
 2. **Adaptive Anomaly Thresholding**: Introduces **Excluded EWMA** thresholding that resolves the catastrophic threshold inflation collapse suffered by un-guarded moving averages during sustained attack floods.
 3. **Un-Contaminated Defensive RL Response**: Deep Q-Networks (DQN) and Tabular Q-Learning trained strictly on dedicated supervisory data ($X_{\text{sup}}$) and evaluated on held-out test data ($X_{\text{test}}$).
-4. **Post-Quantum Cryptography**: Standardized **NIST FIPS 203 ML-KEM-768** key encapsulation paired with AES-256-GCM AEAD encryption achieving sub-millisecond edge setup ($0.4293$~ms) and 100% tamper rejection.
-5. **Tamper-Evident Forensic Logging**: Cryptographic hash-chain sequencing ensuring $\mathcal{O}(1)$ append latency ($0.0409$~ms) and provable sequence tamper localization.
+4. **Post-Quantum Cryptography**: Standardized **NIST FIPS 203 ML-KEM-768** key encapsulation paired with AES-256-GCM AEAD encryption achieving sub-millisecond edge setup ($0.2758$~ms KEM, $0.2905$~ms first-message setup) and 100% tamper rejection.
+5. **Tamper-Evident Forensic Logging**: Cryptographic hash-chain sequencing ensuring $\mathcal{O}(1)$ append latency ($0.0605$~ms) and provable sequence tamper localization.
 
 ---
 

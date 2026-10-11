@@ -1,9 +1,9 @@
 """
 scripts/build_full_ieee_access_pdf.py
 
-Compiles the complete 16-section IEEE Access formatted research paper into a
-publication-grade double-column PDF with embedded 300-DPI figures, complete
-statistical tables, mathematical equations, and references.
+Compiles the complete, audited IEEE Access research paper into a
+publication-grade double-column PDF with verified 300-DPI figures, exact
+5-seed experimental tables, correct author metadata, and no unverified publisher claims.
 """
 
 import os
@@ -25,11 +25,10 @@ def main():
     submission_pdf = os.path.join(repo_root, "submission", "paper", "IEEE_Access_Final_Manuscript.pdf")
     html_out = os.path.join(repo_root, "paper", "manuscript_formatted.html")
 
-    # Load images as Base64 for seamless headless rendering
+    # Load verified images as Base64 for headless rendering
     f0 = encode_image(os.path.join(fig_dir, "figure0_system_architecture.png"))
-    f1a = encode_image(os.path.join(fig_dir, "figure1_f1_score_comparison.png"))
-    f1b = encode_image(os.path.join(fig_dir, "figure1_threshold_comparison.png"))
-    f2 = encode_image(os.path.join(fig_dir, "figure2_fpr_stress_test.png"))
+    f1 = encode_image(os.path.join(fig_dir, "figure1_threshold_comparison.png"))
+    f2 = encode_image(os.path.join(fig_dir, "figure2_rate_stress_test.png"))
     f3 = encode_image(os.path.join(fig_dir, "figure3_per_attack_recall.png"))
     f4 = encode_image(os.path.join(fig_dir, "figure4_defense_rewards.png"))
     f5 = encode_image(os.path.join(fig_dir, "figure5_pqc_latency.png"))
@@ -59,7 +58,7 @@ body {{
     padding: 0;
 }}
 
-/* IEEE Access Header Banner */
+/* Clean IEEE Access Draft Header Banner */
 .ieee-banner {{
     border-bottom: 2px solid #002855;
     padding-bottom: 4px;
@@ -78,7 +77,7 @@ body {{
 }}
 
 h1.paper-title {{
-    font-size: 19pt;
+    font-size: 18.5pt;
     font-weight: bold;
     line-height: 1.2;
     margin: 0 0 10px 0;
@@ -278,55 +277,51 @@ th {{
 <body>
 
 <div class="ieee-banner">
-    <span>IEEE ACCESS &bull; SPECIAL SECTION ON TRUSTWORTHY AND SECURE INTERNET OF THINGS</span>
-    <span>OCTOBER 2026 &bull; DIGITAL OBJECT IDENTIFIER: 10.1109/ACCESS.2026.3526148</span>
+    <span>IEEE ACCESS MANUSCRIPT TEMPLATE &bull; RESEARCH PREPRINT</span>
+    <span>DATE OF DRAFT: OCTOBER 12, 2026 &bull; PREPARED FOR JOURNAL PEER REVIEW</span>
 </div>
 
 <div class="title-block">
     <h1 class="paper-title">An AI-Driven Adaptive Cybersecurity Framework for IoT: Anomaly Detection, Dynamic Thresholding, Un-Contaminated Reinforcement Learning Defense, Post-Quantum Cryptography, and Tamper-Evident Audit Logging</h1>
-    <div class="authors">Tanish Thakare, Lead Researcher &bull; Academic Research Group</div>
+    <div class="authors">Tanish Thakare</div>
     <div class="affiliations">
-        Department of Computer Science and Engineering &bull; Advanced IoT Security Laboratory<br>
+        Department of Computer Science and Engineering, Independent Research<br>
         Corresponding Author Email: tanish.thakare2005@gmail.com
     </div>
     <div class="pub-meta">
-        Manuscript Received October 11, 2026; Revised October 12, 2026; Accepted for Publication IEEE Access 2026.<br>
-        Open-Access Code Repository: <a href="https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-">https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-</a> &bull; Release Commit: <code>df7b377</code>
+        Manuscript Working Draft &bull; October 12, 2026.<br>
+        Verified Open-Access Code Repository: <a href="https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-">https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-</a>
     </div>
 </div>
 
 <div class="abstract-box">
-    <strong>Abstract</strong>&mdash;In Internet of Things (IoT) edge cybersecurity, deep reconstruction-based anomaly detection models (such as Dense Autoencoders) offer promising capabilities for flagging zero-day intrusions without requiring labeled attack samples during training. However, translating continuous reconstruction errors into operational binary decisions relies heavily on thresholding mechanisms (&tau;). While static percentile thresholds (&tau;<sub>95</sub>, &tau;<sub>99</sub>) calibrated during offline training are standard in literature, they are highly sensitive to non-stationary network traffic shifts and benign telemetry rate surges, leading to false-alarm explosions. Conversely, un-guarded adaptive thresholding mechanisms (such as standard Exponentially Weighted Moving Average - EWMA) dynamically update background error statistics on incoming telemetry, making them vulnerable to severe <em>threshold inflation</em> during sustained attack floods.
-    <br><br>
-    This paper presents an empirically rigorous, leak-free benchmark evaluating four explicit threshold adaptation strategies (<strong>Fixed 95th Percentile</strong>, <strong>Fixed 99th Percentile</strong>, <strong>Un-Guarded EWMA</strong>, <strong>Excluded EWMA</strong>, and <strong>Guarded Winsorized EWMA</strong>) across unsupervised anomaly detection models (Dense Autoencoder and Isolation Forest) alongside a supervised XGBoost oracle reference over 5 standardized random seeds (42, 123, 456, 789, 2026). Furthermore, we evaluate three defensive-response mitigation policies (<strong>Static Rule-Based</strong>, <strong>Tabular Q-Learning</strong>, and <strong>Deep Q-Network - DQN</strong>) trained strictly on supervised training partitions (<em>X</em><sub>sup</sub>) and evaluated on held-out test data (<em>X</em><sub>test</sub>), microbenchmark standardized NIST FIPS 203 Post-Quantum Cryptography (<strong>ML-KEM-512</strong>, <strong>ML-KEM-768</strong>, and <strong>ML-KEM-1024</strong>) paired with HKDF-SHA256 and AES-256-GCM AEAD, and evaluate a tamper-evident append-only hash-chain audit log.
-    <br><br>
-    Our empirical results demonstrate that while Dense Autoencoders with a Fixed 95th Percentile threshold achieve a baseline F1-Score of <strong>0.8854 &plusmn; 0.0013</strong> (Precision: 0.9893, Recall: 0.8013, FPR: 0.0493 &plusmn; 0.0013), synthetic benign rate feature scaling causes a <strong>+454.4% explosion in false positive rates</strong> under 2.0&times; scaling (jumping from 4.93% to 27.33%). On the base test stream, Excluded EWMA adaptation achieves the highest unsupervised F1-Score of <strong>0.9014 &plusmn; 0.0018</strong> (Recall: 0.8401 &plusmn; 0.0023, FPR: 0.1360 &plusmn; 0.0110), coming within 2.55% of the Supervised XGBoost Oracle (F1: 0.9269 &plusmn; 0.0004). Purging cross-partition repeated feature vectors shifts F1-scores by less than 0.10%, proving mathematical invariance. For defensive mitigation, <strong>DQN</strong> achieves <strong>71.20% attack containment</strong> with a <strong>0.77% false block rate</strong> (latency: 0.4412 ms). For post-quantum transport encryption, <strong>ML-KEM-768</strong> achieves sub-millisecond key establishment (<strong>0.4293 ms</strong>) and 100% tamper rejection. In full integrated pipeline evaluation, the proposed framework achieves an end-to-end F1-Score of <strong>0.8968 &plusmn; 0.0013</strong> and <strong>80.65% &plusmn; 3.16%</strong> attack containment with sub-millisecond edge processing latency (<strong>0.3781 ms</strong> per event, 2,652.4 events/s).
+    <strong>Abstract</strong>&mdash;In Internet of Things (IoT) edge cybersecurity, deep reconstruction-based autoencoders provide effective detection of zero-day network intrusions without requiring labeled attack samples during training. However, translating continuous reconstruction errors into operational mitigation decisions faces critical vulnerabilities: static decision thresholds explode in false alarms under non-stationary traffic surges, un-guarded adaptive thresholds suffer severe threshold inflation collapse during attack floods, defensive reinforcement learning policies risk evaluation split contamination, and existing literature relies on abstract non-standardized cryptographic assumptions. This paper presents an empirically rigorous benchmark evaluating an integrated five-stage cybersecurity framework on CICIoT2023 across 5 random seeds (42, 123, 456, 789, 2026) under strictly isolated training, validation, supervised, and held-out test splits. Our empirical results establish that: (1) Sample-level Dense Autoencoders (<em>L</em>=1) eliminate sequence window boundary contamination, achieving an unsupervised baseline F1-Score of <strong>0.8854 &plusmn; 0.0013</strong> (Precision: 0.9893, Recall: 0.8013, FPR: 0.0493 &plusmn; 0.0013); (2) Excluded EWMA thresholding prevents inflation collapse, reaching F1 = <strong>0.9014 &plusmn; 0.0018</strong> and coming within 2.55% of a supervised XGBoost oracle (F1 = 0.9269 &plusmn; 0.0004), albeit with an elevated false positive rate (13.60 &plusmn; 1.10%); (3) Static 95th percentile thresholds suffer a +454.4% explosion in false positive rates under 2.0&times; synthetic rate feature scaling; (4) Under strictly un-contaminated evaluation (<em>X</em><sub>sup</sub> training, held-out <em>X</em><sub>test</sub> evaluation), Deep Q-Networks achieve <strong>71.26 &plusmn; 0.09%</strong> attack containment with <strong>0.63 &plusmn; 0.46%</strong> false block rate (decision latency: 0.1160 &plusmn; 0.0052 ms), while Tabular Q-Learning achieves a 0.00% false block rate in isolated testing; (5) Standardized NIST FIPS 203 ML-KEM-768 key encapsulation paired with AES-256-GCM achieves sub-millisecond key establishment (<strong>0.2758 ms</strong> KEM, 0.2905 ms first-message setup) and 100% tamper rejection; (6) HMAC-SHA-256 (0.0470 ms creation) and Tamper-Evident Hash-Chain Audit Logging (0.0605 ms append, <em>O</em>(1) scaling) provide verifiable sequence integrity and tamper localization; (7) In sensitivity testing, evaluating on a deduplicated test set (<em>N</em>=98,543) purging all 1,457 cross-partition duplicates shifts F1 by at most &minus;0.0009 (&minus;0.10%), confirming that repeated feature patterns do not materially inflate evaluation metrics; and (8) The full integrated framework achieves an end-to-end F1-Score of <strong>0.8968 &plusmn; 0.0013</strong> and <strong>81.01% &plusmn; 2.83%</strong> attack containment with edge processing latency of <strong>0.9626 &plusmn; 0.6304 ms</strong> (1,436.2 &plusmn; 759.5 events/s throughput).
     <div class="keywords">
-        <strong>Index Terms</strong>&mdash;Internet of Things (IoT), Anomaly Detection, Adaptive Thresholding, Reinforcement Learning, Post-Quantum Cryptography, NIST FIPS 203, ML-KEM-768, Tamper-Evident Audit Logging, CICIoT2023.
+        <strong>Index Terms</strong>&mdash;Internet of Things (IoT), Anomaly Detection, Adaptive Thresholding, Reinforcement Learning, Post-Quantum Cryptography, NIST FIPS 203, ML-KEM-768, Tamper-Evident Hash Chain, CICIoT2023.
     </div>
 </div>
 
 <div class="columns">
 
 <h2 class="section-heading">I. Introduction</h2>
-<p class="no-indent">The proliferation of Internet of Things (IoT) devices in critical infrastructure, industrial automation, and smart cities has expanded the network threat surface. Resource-constrained edge nodes routinely encounter high-volume distributed denial-of-service (DDoS), reconnaissance probes, and stealthy exploitation attempts. Traditional signature-based Intrusion Detection Systems (IDS) fail against zero-day vulnerabilities and polymorphic network flow anomalies.</p>
+<p class="no-indent">The exponential expansion of Internet of Things (IoT) deployments across critical infrastructure, industrial automation, and consumer environments has widened the network attack surface. Edge devices and gateways regularly encounter automated botnets, distributed denial-of-service (DDoS) floods, stealthy reconnaissance scans, and weaponized firmware exploits. Traditional signature-based Intrusion Detection Systems (IDS) fail against polymorphic variants and zero-day attack vectors.</p>
 
-<p>Deep learning models&mdash;specifically unsupervised autoencoders&mdash;have emerged as an effective defense paradigm. By training models exclusively on normal (benign) network telemetry, the autoencoder learns the underlying statistical distribution of legitimate traffic. During operational inference, incoming network flows yielding high reconstruction errors:</p>
+<p>Deep learning approaches&mdash;specifically unsupervised reconstruction-based autoencoders&mdash;have emerged as an effective paradigm for IoT anomaly detection. By training exclusively on benign telemetry flows, the model learns the normal representation manifold. During operational inference, flows generating high reconstruction errors:</p>
 
 <div class="equation">
-    <i>E<sub>t</sub></i> = ||<b>x</b><sub><i>t</i></sub> &minus; <b>x̂</b><sub><i>t</i></sub>||<sup>2</sup> = &sum;<sub><i>j</i>=1</sub><sup><i>d</i></sup> (<i>x<sub>t,j</sub></i> &minus; <i>x̂<sub>t,j</sub></i>)<sup>2</sup>
+    <i>E<sub>t</sub></i> = ||<b>x</b><sub><i>t</i></sub> &minus; <b>x̂</b><sub><i>t</i></sub>||<sup>2</sup> = &sum;<sub><i>j</i>=1</sub><sup><i>D</i></sup> (<i>x<sub>t,j</sub></i> &minus; <i>x̂<sub>t,j</sub></i>)<sup>2</sup>
     <span class="eq-num">(1)</span>
 </div>
 
-<p class="no-indent">are flagged as anomalies whenever <i>E<sub>t</sub></i> exceeds a decision boundary &tau;. However, four fundamental bottlenecks undermine real-world operational deployments:</p>
+<p class="no-indent">are flagged as anomalies whenever <i>E<sub>t</sub></i> exceeds a decision boundary &tau;<sub><i>t</i></sub>. However, practical deployment in operational IoT edge environments is hindered by four critical challenges:</p>
 
-<p><strong>1. Threshold Brittleness and Inflation:</strong> Static percentile thresholds (&tau;<sub>95</sub>, &tau;<sub>99</sub>) fail under non-stationary traffic bursts, triggering massive false positive floods. Conversely, standard un-guarded adaptive thresholds update background statistics on hostile attack traffic, causing <em>threshold inflation</em> and catastrophic detection collapse.</p>
+<p><strong>1. Threshold Brittleness and Inflation:</strong> Literature predominantly relies on static percentile thresholds (&tau;<sub>95</sub>, &tau;<sub>99</sub>) calibrated during offline validation. Under non-stationary traffic bursts or benign rate increases, fixed thresholds trigger severe false-alarm storms. Conversely, conventional adaptive algorithms like Exponentially Weighted Moving Average (EWMA) dynamically incorporate hostile attack traffic into background statistics, causing <em>threshold inflation</em> and complete detection failure during sustained floods.</p>
 
-<p><strong>2. Evaluation Contamination in RL Mitigation:</strong> Existing reinforcement learning response policies are frequently evaluated on the same data partitions used for reward calibration, hiding severe over-fitting.</p>
+<p><strong>2. Evaluation Contamination in Mitigation Policies:</strong> Reinforcement learning (RL) policies for automated mitigation are frequently trained and evaluated on overlapping data partitions, obscuring generalization failure and overfitting.</p>
 
-<p><strong>3. Abstract vs. Standardized Cryptography:</strong> Literature commonly cites generic "quantum-safe" encryption without standard adherence. Concrete NIST FIPS 203 primitives must be benchmarked under strict memory and latency budgets.</p>
+<p><strong>3. Abstract vs. Standardized Cryptography:</strong> Existing literature frequently claims "post-quantum encryption" without evaluating concrete standardized primitives. NIST FIPS 203 (ML-KEM) requires rigorous empirical benchmarking under IoT edge latency and memory constraints.</p>
 
-<p><strong>4. Local Audit Boundary Realism:</strong> Forensic logging on edge gateways requires tamper-evident sequence immutability while explicitly recognizing the threat boundary against privileged storage rewrite adversaries.</p>
+<p><strong>4. Forensic Audit Logging Boundaries:</strong> Edge gateways require verifiable audit trails to guarantee incident provenance. However, the local storage trust boundary against privileged host adversaries must be clearly formulated rather than asserting unqualified blockchain immutability.</p>
 
 <h2 class="section-heading">II. System Architecture</h2>
 <p class="no-indent">The proposed architecture integrates five synchronized defensive stages within a lightweight edge pipeline, illustrated in Figure 1:</p>
@@ -336,7 +331,7 @@ th {{
     <div class="caption"><strong>FIGURE 1.</strong> Five-Stage Integrated IoT Edge Cybersecurity Framework Architecture.</div>
 </div>
 
-<p><strong>Stage 1 (Feature Normalization):</strong> 39 numerical network flow statistical features are extracted from incoming packets. Non-numeric metadata identifiers (<code>src_ip</code>, <code>dst_ip</code>, <code>src_port</code>, <code>dst_port</code>, <code>Timestamp</code>, <code>flow_id</code>) are purged to eliminate shortcut memorization. Features are normalized via StandardScaler fitted exclusively on <em>X</em><sub>train</sub>.</p>
+<p><strong>Stage 1 (Feature Normalization):</strong> 39 numerical flow features are extracted from incoming packets. Non-numeric metadata identifiers (<code>src_ip</code>, <code>dst_ip</code>, <code>src_port</code>, <code>dst_port</code>, <code>Timestamp</code>, <code>flow_id</code>) are purged to eliminate shortcut memorization. Features are normalized via StandardScaler fitted exclusively on <em>X</em><sub>train</sub>.</p>
 
 <p><strong>Stage 2 (Reconstruction Inference & Excluded EWMA):</strong> The normalized vector is passed through a 4-layer symmetrical Dense Autoencoder (39 &rarr; 24 &rarr; 12 &rarr; 24 &rarr; 39). Reconstruction error <i>E<sub>t</sub></i> is compared against an adaptive threshold &tau;<sub><i>t</i></sub>. When <i>E<sub>t</sub></i> &le; &tau;<sub><i>t</i></sub>, the flow is classified as benign and background statistics are updated. When <i>E<sub>t</sub></i> &gt; &tau;<sub><i>t</i></sub>, the flow is flagged as an anomaly and the sample is strictly <strong>excluded</strong> from statistical updating, preventing threshold inflation.</p>
 
@@ -346,7 +341,7 @@ th {{
 
 <p><strong>Stage 5 (Tamper-Evident Hash-Chain Logging):</strong> Forensic incident records are appended to an immutable cryptographic hash chain where block <i>k</i> encapsulates the SHA-256 digest of block <i>k</i>&minus;1.</p>
 
-<h2 class="section-heading">III. Dataset & Split Methodology</h2>
+<h2 class="section-heading">III. Dataset & Strict Split Protocol</h2>
 <p class="no-indent">Experiments are conducted on <strong>CICIoT2023</strong> (Neto et al., <em>Sensors</em>, 2023). To guarantee absolute data isolation, the benchmark implements four strict partitions:</p>
 <p>&bull; <strong><i>X</i><sub>train</sub>:</strong> 100,000 pure benign flows (scaler fitting and unsupervised autoencoder training).<br>
 &bull; <strong><i>X</i><sub>val</sub>:</strong> 30,000 pure benign flows (offline threshold calibration &tau;<sub>95</sub>, &tau;<sub>99</sub>).<br>
@@ -355,7 +350,7 @@ th {{
 
 <div class="disclosure-box">
     <strong>Data Integrity & Deduplication Disclosure:</strong><br>
-    Identical feature vectors occur naturally during high-rate attack bursts (e.g. uniform SYN flood packet sizes). We evaluated the entire benchmark on both the full test set (<em>N</em>=100k) and a strictly deduplicated test set (<em>N</em>=98.5k) where all 1,457 cross-partition duplicates were purged. F1-scores shifted by less than 0.10%, proving that repeated vectors do not inflate reported performance.
+    Identical feature vectors occur naturally during high-rate attack bursts (e.g. uniform SYN flood packet sizes). We evaluated the entire benchmark on both the full test set (<em>N</em>=100k) and a strictly deduplicated test set (<em>N</em>=98.5k) where all 1,457 cross-partition duplicates were purged. F1-scores shifted by at most &minus;0.10%, confirming that repeated vectors do not inflate reported performance.
 </div>
 
 <h2 class="section-heading">IV. Experimental Results (E1–E8)</h2>
@@ -403,18 +398,18 @@ th {{
             </tr>
             <tr>
                 <td>Dense-AE</td>
-                <td>Un-Guarded EWMA</td>
-                <td>1.0000 &plusmn; 0.0000</td>
-                <td>0.0001 &plusmn; 0.0000</td>
-                <td>0.0003 &plusmn; 0.0001</td>
-                <td>0.0000 &plusmn; 0.0000</td>
-            </tr>
-            <tr>
-                <td>Dense-AE</td>
                 <td>Guarded EWMA</td>
                 <td>1.0000 &plusmn; 0.0000</td>
                 <td>0.0022 &plusmn; 0.0000</td>
                 <td>0.0045 &plusmn; 0.0001</td>
+                <td>0.0000 &plusmn; 0.0000</td>
+            </tr>
+            <tr>
+                <td>Dense-AE</td>
+                <td>Un-Guarded EWMA</td>
+                <td>1.0000 &plusmn; 0.0000</td>
+                <td>0.0001 &plusmn; 0.0000</td>
+                <td>0.0003 &plusmn; 0.0001</td>
                 <td>0.0000 &plusmn; 0.0000</td>
             </tr>
             <tr>
@@ -438,14 +433,14 @@ th {{
 </div>
 
 <div class="figure-container">
-    <img src="{f1a}" alt="F1 Comparison">
-    <div class="caption"><strong>FIGURE 2.</strong> F1-Score Comparison Across Baseline Detection Tiers (E1, E2).</div>
+    <img src="{f1}" alt="F1 Comparison">
+    <div class="caption"><strong>FIGURE 2.</strong> Dense-AE Performance and False Positive Rates Across Threshold Adaptation Strategies (5 Seeds, Mean &plusmn; Std).</div>
 </div>
 
-<p>As evident in Table I, Un-Guarded EWMA experiences complete threshold inflation collapse: as attack records enter the evaluation window, the mean reconstruction error expands exponentially, raising &tau;<sub><i>t</i></sub> above attack error levels and driving recall to 0.01% (F1 = 0.0003). In contrast, <strong>Excluded EWMA</strong> prevents hostile sample pollution, achieving F1 = <strong>0.9014 &plusmn; 0.0018</strong>, outperforming Fixed 95th (0.8854) and Fixed 99th (0.8659).</p>
+<p>As evident in Table I, Un-Guarded EWMA experiences complete threshold inflation collapse: as attack records enter the evaluation window, the mean reconstruction error expands exponentially, raising &tau;<sub><i>t</i></sub> above attack error levels and driving recall to 0.01% (F1 = 0.0003). In contrast, <strong>Excluded EWMA</strong> prevents hostile sample pollution, achieving F1 = <strong>0.9014 &plusmn; 0.0018</strong>, outperforming Fixed 95th (0.8854) and Fixed 99th (0.8659). However, Excluded EWMA incurs an elevated FPR (13.60% vs 4.93%), representing an operational trade-off.</p>
 
 <h3 class="subheading">B. Deduplication Sensitivity Evaluation</h3>
-<p class="no-indent">Table II establishes the invariance of our findings when removing identical feature vectors across partitions:</p>
+<p class="no-indent">Table II establishes metric stability when removing identical feature vectors across partitions:</p>
 
 <div class="table-container">
     <div class="table-caption">TABLE II. Deduplication Sensitivity Analysis (5 Seeds)</div>
@@ -532,29 +527,95 @@ th {{
 
 <div class="figure-container">
     <img src="{f2}" alt="FPR Stress Test">
-    <div class="caption"><strong>FIGURE 3.</strong> False Positive Rate Explosion Under Synthetic Rate Feature Scaling (E8).</div>
+    <div class="caption"><strong>FIGURE 3.</strong> False Positive Rate Explosion Under Synthetic Rate Feature Scaling on Dense-AE Fixed 95th (E8).</div>
 </div>
 
+<p><em>Operational Scope Disclosure</em>: In Experiment E8, synthetic scaling was applied strictly to rate features (`Rate`, `Tot size`, `Variance`) of benign test samples for Fixed 95th Percentile thresholding to evaluate sensitivity to burst telemetry. Excluded EWMA was evaluated on the base stream in Experiment E2 and was not re-evaluated under synthetic feature scaling in E8; threshold stability claims are strictly confined to the dynamic stream conditions tested in E2.</p>
+
 <h3 class="subheading">D. Granular Attack-Class Breakdown</h3>
-<p class="no-indent">Figure 4 depicts recall breakdown across 7 attack classes. Volumetric attacks (DDoS, DoS) are detected with 99.88% recall, whereas Reconnaissance achieves 73.12% and Web-based attacks achieve 58.41% recall due to payload-layer stealth.</p>
+<p class="no-indent">Table IV and Figure 4 depict recall breakdown across 7 attack classes on the held-out test stream:</p>
+
+<div class="table-container">
+    <div class="table-caption">TABLE IV. Dense-AE Detection Recall Across 7 Attack Categories (Held-Out Test Set)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Attack Category</th>
+                <th>Sample Count</th>
+                <th>Fixed 95th Recall</th>
+                <th>Excluded EWMA Recall</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>DDoS</td>
+                <td>33,483</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+            </tr>
+            <tr>
+                <td>DoS</td>
+                <td>15,107</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+            </tr>
+            <tr>
+                <td>Mirai</td>
+                <td>11,160</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+            </tr>
+            <tr>
+                <td>BruteForce</td>
+                <td>965</td>
+                <td>42.80%</td>
+                <td><strong>55.54%</strong></td>
+            </tr>
+            <tr>
+                <td>Reconnaissance</td>
+                <td>15,038</td>
+                <td>38.18%</td>
+                <td><strong>49.19%</strong></td>
+            </tr>
+            <tr>
+                <td>Spoofing</td>
+                <td>7,451</td>
+                <td>23.38%</td>
+                <td><strong>39.15%</strong></td>
+            </tr>
+            <tr>
+                <td>Web-based</td>
+                <td>1,885</td>
+                <td>20.42%</td>
+                <td><strong>37.88%</strong></td>
+            </tr>
+            <tr>
+                <td><strong>Total Attack Stream</strong></td>
+                <td><strong>85,089</strong></td>
+                <td><strong>79.95%</strong></td>
+                <td><strong>83.81%</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 
 <div class="figure-container">
     <img src="{f3}" alt="Attack Recall">
-    <div class="caption"><strong>FIGURE 4.</strong> Detection Recall Across Attack Categories (E1, E2).</div>
+    <div class="caption"><strong>FIGURE 4.</strong> Dense-AE Detection Recall Breakdown Across 7 Attack Categories on Held-Out Test Set.</div>
 </div>
 
 <h3 class="subheading">E. Un-Contaminated RL Defense Mitigation (E4)</h3>
-<p class="no-indent">Table IV compares Static Rule, Tabular Q-Learning, and Deep Q-Network (DQN) mitigation policies under strict held-out evaluation on <em>X</em><sub>test</sub>:</p>
+<p class="no-indent">Table V compares Static Rule, Tabular Q-Learning, and Deep Q-Network (DQN) mitigation policies under strict held-out evaluation on <em>X</em><sub>test</sub>:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE IV. Defensive-Response Mitigation Policy Performance (E4)</div>
+    <div class="table-caption">TABLE V. Defensive Mitigation Policy Performance under Held-Out Evaluation (5 Seeds)</div>
     <table>
         <thead>
             <tr>
                 <th>Scenario / Policy</th>
-                <th>Reward</th>
-                <th>Containment</th>
-                <th>False Block</th>
+                <th>Cumulative Reward</th>
+                <th>Attack Containment</th>
+                <th>False Block Rate</th>
                 <th>Latency (ms)</th>
             </tr>
         </thead>
@@ -565,24 +626,24 @@ th {{
             </tr>
             <tr>
                 <td>&bull; Static Rule</td>
-                <td>35,402 &plusmn; 0</td>
+                <td>35,402.00 &plusmn; 0.00</td>
                 <td>99.98% &plusmn; 0.00%</td>
                 <td>100.00% &plusmn; 0.00%</td>
-                <td>0.0413 &plusmn; 0.0233</td>
+                <td>0.0123 &plusmn; 0.0033</td>
             </tr>
             <tr>
                 <td>&bull; Tabular Q</td>
-                <td>17,692 &plusmn; 3,324</td>
-                <td>55.94% &plusmn; 7.26%</td>
+                <td>17,199.00 &plusmn; 3,799.62</td>
+                <td>60.45% &plusmn; 11.91%</td>
                 <td><strong>0.00% &plusmn; 0.00%</strong></td>
-                <td><strong>0.0757 &plusmn; 0.0146</strong></td>
+                <td><strong>0.0122 &plusmn; 0.0003</strong></td>
             </tr>
             <tr>
                 <td>&bull; <strong>DQN</strong></td>
-                <td><strong>27,092 &plusmn; 3,289</strong></td>
-                <td><strong>71.20% &plusmn; 0.05%</strong></td>
-                <td><strong>0.77% &plusmn; 0.43%</strong></td>
-                <td>0.4412 &plusmn; 0.1315</td>
+                <td><strong>28,513.20 &plusmn; 122.92</strong></td>
+                <td><strong>71.26% &plusmn; 0.09%</strong></td>
+                <td><strong>0.63% &plusmn; 0.46%</strong></td>
+                <td>0.1160 &plusmn; 0.0052</td>
             </tr>
             <tr>
                 <td><strong>Scenario 2 (Stealth)</strong></td>
@@ -590,24 +651,24 @@ th {{
             </tr>
             <tr>
                 <td>&bull; Static Rule</td>
-                <td>35,762 &plusmn; 0</td>
+                <td>35,762.00 &plusmn; 0.00</td>
                 <td>99.98% &plusmn; 0.00%</td>
                 <td>100.00% &plusmn; 0.00%</td>
-                <td>0.0398 &plusmn; 0.0221</td>
+                <td>0.0115 &plusmn; 0.0015</td>
             </tr>
             <tr>
                 <td>&bull; Tabular Q</td>
-                <td>17,446 &plusmn; 3,648</td>
-                <td>56.21% &plusmn; 7.81%</td>
+                <td>16,661.60 &plusmn; 4,096.27</td>
+                <td>59.27% &plusmn; 11.50%</td>
                 <td><strong>0.00% &plusmn; 0.00%</strong></td>
-                <td><strong>0.0718 &plusmn; 0.0036</strong></td>
+                <td><strong>0.0122 &plusmn; 0.0002</strong></td>
             </tr>
             <tr>
                 <td>&bull; <strong>DQN</strong></td>
-                <td><strong>28,219 &plusmn; 3,109</strong></td>
-                <td><strong>73.01% &plusmn; 0.05%</strong></td>
-                <td><strong>0.53% &plusmn; 0.32%</strong></td>
-                <td>0.3071 &plusmn; 0.1332</td>
+                <td><strong>29,506.00 &plusmn; 156.37</strong></td>
+                <td><strong>73.06% &plusmn; 0.09%</strong></td>
+                <td><strong>0.48% &plusmn; 0.39%</strong></td>
+                <td>0.1226 &plusmn; 0.0120</td>
             </tr>
         </tbody>
     </table>
@@ -615,16 +676,16 @@ th {{
 
 <div class="figure-container">
     <img src="{f4}" alt="Defense Policy Rewards">
-    <div class="caption"><strong>FIGURE 5.</strong> Cumulative Reward and Containment Trade-off Across RL Policies (E4).</div>
+    <div class="caption"><strong>FIGURE 5.</strong> Cumulative Reward and Containment vs. Disruption Trade-off Across RL Policies (E4).</div>
 </div>
 
-<p>While Static Rule achieves 99.98% containment, it indiscriminately blocks 100% of benign traffic during attack periods, resulting in total denial of legitimate service. In contrast, <strong>DQN</strong> balances containment (71.20% to 73.01%) with ultra-low false blocking (0.53% to 0.77%).</p>
+<p>While Static Rule achieves 99.98% containment, it indiscriminately blocks 100% of benign traffic during attack periods, resulting in total denial of legitimate service. In contrast, <strong>DQN</strong> balances containment (71.26% to 73.06%) with ultra-low false blocking (0.48% to 0.63%).</p>
 
 <h3 class="subheading">F. Post-Quantum Cryptography Microbenchmark (E5)</h3>
-<p class="no-indent">Table V and Figure 6 report key encapsulation latency and transmission overhead for NIST FIPS 203 ML-KEM paired with AES-256-GCM AEAD over 100 trials:</p>
+<p class="no-indent">Table VI and Figure 6 report key encapsulation latency and transmission overhead for NIST FIPS 203 ML-KEM paired with AES-256-GCM AEAD over 100 trials for 1024-byte telemetry payloads:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE V. NIST FIPS 203 PQC Microbenchmark (E5)</div>
+    <div class="table-caption">TABLE VI. NIST FIPS 203 PQC Microbenchmark (1024-Byte Payload, AMD64)</div>
     <table>
         <thead>
             <tr>
@@ -641,24 +702,24 @@ th {{
                 <td><strong>ML-KEM-512</strong></td>
                 <td>800 B</td>
                 <td>768 B</td>
-                <td>0.1802 ms</td>
-                <td>0.1972 ms</td>
+                <td>0.1757 ms</td>
+                <td>0.1895 ms</td>
                 <td>100.0%</td>
             </tr>
             <tr>
                 <td><strong>ML-KEM-768</strong></td>
                 <td>1,184 B</td>
                 <td>1,088 B</td>
-                <td><strong>0.4293 ms</strong></td>
-                <td><strong>0.4754 ms</strong></td>
+                <td><strong>0.2758 ms</strong></td>
+                <td><strong>0.2905 ms</strong></td>
                 <td><strong>100.0%</strong></td>
             </tr>
             <tr>
                 <td><strong>ML-KEM-1024</strong></td>
                 <td>1,568 B</td>
                 <td>1,568 B</td>
-                <td>0.4594 ms</td>
-                <td>0.4963 ms</td>
+                <td>0.4363 ms</td>
+                <td>0.4538 ms</td>
                 <td>100.0%</td>
             </tr>
         </tbody>
@@ -667,19 +728,19 @@ th {{
 
 <div class="figure-container">
     <img src="{f5}" alt="PQC Latency">
-    <div class="caption"><strong>FIGURE 6.</strong> Post-Quantum Key Encapsulation and Payload Latency (E5).</div>
+    <div class="caption"><strong>FIGURE 6.</strong> Post-Quantum Key Encapsulation Latency and Artifact Transmission Footprints (E5).</div>
 </div>
 
 <h3 class="subheading">G. Cryptographic Integrity Benchmark (E6)</h3>
-<p class="no-indent">Table VI and Figure 7 compare three integrity mechanisms on 1 KiB event records over 100 trials:</p>
+<p class="no-indent">Table VII and Figure 7 compare three integrity mechanisms on 1 KiB event records over 100 trials:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE VI. Cryptographic Integrity Verification Benchmark (E6)</div>
+    <div class="table-caption">TABLE VII. Cryptographic Integrity Verification Microbenchmarks (1 KiB Records)</div>
     <table>
         <thead>
             <tr>
                 <th>Mechanism</th>
-                <th>Append (ms)</th>
+                <th>Create (ms)</th>
                 <th>Verify (ms)</th>
                 <th>Overhead</th>
                 <th>Throughput</th>
@@ -689,26 +750,26 @@ th {{
         <tbody>
             <tr>
                 <td>Salted SHA-256</td>
-                <td>0.0279</td>
-                <td>0.0133</td>
+                <td>0.0468 &plusmn; 0.0240</td>
+                <td>0.0207 &plusmn; 0.0134</td>
                 <td>193 B</td>
-                <td>34.94 MB/s</td>
+                <td>20.85 MB/s</td>
                 <td>Accidental errors (Unkeyed)</td>
             </tr>
             <tr>
                 <td>HMAC-SHA-256</td>
-                <td>0.0332</td>
-                <td>0.0158</td>
-                <td>171 B</td>
-                <td>29.45 MB/s</td>
+                <td>0.0470 &plusmn; 0.0209</td>
+                <td>0.0214 &plusmn; 0.0097</td>
+                <td>170 B</td>
+                <td>20.79 MB/s</td>
                 <td>Authenticity (Keyed)</td>
             </tr>
             <tr>
                 <td><strong>Hash Chain Log</strong></td>
-                <td><strong>0.0409</strong></td>
-                <td><strong>0.0198</strong></td>
-                <td>317 B</td>
-                <td>23.88 MB/s</td>
+                <td><strong>0.0605 &plusmn; 0.0248</strong></td>
+                <td><strong>0.0328 &plusmn; 0.0310</strong></td>
+                <td>318 B</td>
+                <td>16.15 MB/s</td>
                 <td><strong>Sequence & Tamper Localized</strong></td>
             </tr>
         </tbody>
@@ -721,10 +782,10 @@ th {{
 </div>
 
 <h2 class="section-heading">V. Integrated Framework Ablation (E7)</h2>
-<p class="no-indent">Table VII and Figure 8 provide the holistic multi-dimensional ablation evaluation across 5 random seeds (42, 123, 456, 789, 2026):</p>
+<p class="no-indent">Table VIII and Figure 8 provide the holistic multi-dimensional ablation evaluation across 5 random seeds (42, 123, 456, 789, 2026) directly matching verified raw experimental summaries:</p>
 
 <div class="table-container full-width">
-    <div class="table-caption">TABLE VII. End-to-End Integrated Framework and Modular Ablation Study Across 5 Standardized Seeds (E7)</div>
+    <div class="table-caption">TABLE VIII. End-to-End Integrated Framework and Modular Ablation Study Across 5 Standardized Seeds (E7)</div>
     <table>
         <thead>
             <tr>
@@ -749,8 +810,8 @@ th {{
                 <td>79.88% &plusmn; 0.06%</td>
                 <td>3.20% &plusmn; 0.07%</td>
                 <td>96.80% &plusmn; 0.07%</td>
-                <td>0.3319 &plusmn; 0.0440</td>
-                <td>3,050.9 &plusmn; 356.1</td>
+                <td>0.8103 &plusmn; 0.5338</td>
+                <td>1,676.4 &plusmn; 866.9</td>
                 <td>194 B</td>
                 <td>No (Vulnerable)</td>
                 <td>No (Unkeyed)</td>
@@ -759,11 +820,11 @@ th {{
                 <td><strong>Ablation (&minus;Adaptive Threshold)</strong></td>
                 <td>0.8837 &plusmn; 0.0004</td>
                 <td>79.88% &plusmn; 0.06%</td>
-                <td>81.67% &plusmn; 2.51%</td>
-                <td>8.24% &plusmn; 3.44%</td>
-                <td>91.76% &plusmn; 3.44%</td>
-                <td>0.3815 &plusmn; 0.0415</td>
-                <td>2,644.8 &plusmn; 272.9</td>
+                <td>80.58% &plusmn; 3.12%</td>
+                <td>5.46% &plusmn; 2.55%</td>
+                <td>94.54% &plusmn; 2.55%</td>
+                <td>0.8579 &plusmn; 0.5443</td>
+                <td>1,496.5 &plusmn; 676.6</td>
                 <td>321 B</td>
                 <td>Yes (NIST ML-KEM)</td>
                 <td>Yes (Hash Chain)</td>
@@ -775,8 +836,8 @@ th {{
                 <td>79.78% &plusmn; 0.06%</td>
                 <td>3.22% &plusmn; 0.06%</td>
                 <td>96.78% &plusmn; 0.06%</td>
-                <td>0.4791 &plusmn; 0.3193</td>
-                <td>2,576.8 &plusmn; 926.7</td>
+                <td>0.9737 &plusmn; 0.7128</td>
+                <td>1,534.4 &plusmn; 873.1</td>
                 <td>321 B</td>
                 <td>Yes (NIST ML-KEM)</td>
                 <td>Yes (Hash Chain)</td>
@@ -785,11 +846,11 @@ th {{
                 <td><strong>Ablation (&minus;PQC)</strong></td>
                 <td>0.8968 &plusmn; 0.0013</td>
                 <td>82.68% &plusmn; 0.24%</td>
-                <td>80.65% &plusmn; 3.16%</td>
-                <td>7.39% &plusmn; 2.51%</td>
-                <td>92.61% &plusmn; 2.51%</td>
-                <td>0.4484 &plusmn; 0.2165</td>
-                <td>2,522.0 &plusmn; 763.1</td>
+                <td>81.01% &plusmn; 2.83%</td>
+                <td>6.01% &plusmn; 1.52%</td>
+                <td>93.99% &plusmn; 1.52%</td>
+                <td>0.9103 &plusmn; 0.5070</td>
+                <td>1,402.5 &plusmn; 717.6</td>
                 <td>321 B</td>
                 <td>No (Vulnerable)</td>
                 <td>Yes (Hash Chain)</td>
@@ -798,11 +859,11 @@ th {{
                 <td><strong>Ablation (&minus;Hash Chain Log)</strong></td>
                 <td>0.8968 &plusmn; 0.0013</td>
                 <td>82.68% &plusmn; 0.24%</td>
-                <td>80.65% &plusmn; 3.16%</td>
-                <td>7.39% &plusmn; 2.51%</td>
-                <td>92.61% &plusmn; 2.51%</td>
-                <td>0.5523 &plusmn; 0.4207</td>
-                <td>2,353.8 &plusmn; 895.4</td>
+                <td>81.01% &plusmn; 2.83%</td>
+                <td>6.01% &plusmn; 1.52%</td>
+                <td>93.99% &plusmn; 1.52%</td>
+                <td>1.2107 &plusmn; 0.7004</td>
+                <td>1,196.6 &plusmn; 819.5</td>
                 <td>194 B</td>
                 <td>Yes (NIST ML-KEM)</td>
                 <td>No (Unkeyed)</td>
@@ -811,11 +872,11 @@ th {{
                 <td><strong>Full Proposed Framework</strong></td>
                 <td><strong>0.8968 &plusmn; 0.0013</strong></td>
                 <td><strong>82.68% &plusmn; 0.24%</strong></td>
-                <td><strong>80.65% &plusmn; 3.16%</strong></td>
-                <td>7.39% &plusmn; 2.51%</td>
-                <td>92.61% &plusmn; 2.51%</td>
-                <td><strong>0.3781 &plusmn; 0.0225</strong></td>
-                <td><strong>2,652.4 &plusmn; 154.8</strong></td>
+                <td><strong>81.01% &plusmn; 2.83%</strong></td>
+                <td>6.01% &plusmn; 1.52%</td>
+                <td>93.99% &plusmn; 1.52%</td>
+                <td><strong>0.9626 &plusmn; 0.6304</strong></td>
+                <td><strong>1,436.2 &plusmn; 759.5</strong></td>
                 <td>321 B</td>
                 <td><strong>Yes (NIST ML-KEM)</strong></td>
                 <td><strong>Yes (Hash Chain)</strong></td>
@@ -825,15 +886,17 @@ th {{
 </div>
 
 <div class="figure-container full-width">
-    <img src="{f7}" alt="Ablation Comparison" style="max-height: 280px;">
-    <div class="caption"><strong>FIGURE 8.</strong> Multi-Metric Ablation Comparison Across All 6 Architectural Configurations (E7).</div>
+    <img src="{f7}" alt="Ablation Comparison" style="max-height: 270px;">
+    <div class="caption"><strong>FIGURE 8.</strong> Multi-Metric Ablation Comparison Across All 6 Architectural Configurations (E7, Verified from Table VII Data).</div>
 </div>
 
+<p><em>Attribution Note</em>: The "Study-Defined Baseline (Adapted Saeed)" row represents our empirical benchmark implementation adapting the general concepts proposed by Saeed (2025) (fixed percentile threshold + static rule escalation + salted SHA-256) using a sample-level Dense Autoencoder on CICIoT2023 under identical test conditions, as Saeed (2025) used an LSTM Autoencoder with a 30s lookback on a private unreleased dataset and reported zero global test stream F1/Recall metrics. We do not claim this was Saeed's published score or that the original LSTM was exactly reproduced.</p>
+
 <h2 class="section-heading">VI. Statistical Significance Analysis</h2>
-<p class="no-indent">Table VIII presents paired <i>t</i>-tests, exact 95% confidence intervals, Holm-Bonferroni adjusted <i>p</i>-values, and Cohen's <i>d</i> effect sizes across all 5 evaluation seeds:</p>
+<p class="no-indent">Table IX presents paired <i>t</i>-tests, exact 95% confidence intervals, Holm-Bonferroni adjusted <i>p</i>-values, and Cohen's <i>d</i> effect sizes across all 5 evaluation seeds:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE VIII. Hypothesis Testing and Effect Size (5 Seeds)</div>
+    <div class="table-caption">TABLE IX. Hypothesis Testing and Effect Size (5 Seeds)</div>
     <table>
         <thead>
             <tr>
@@ -916,13 +979,12 @@ th {{
 <h2 class="section-heading">VIII. Reproducibility & Open-Source Code</h2>
 <p class="no-indent">The complete experimental code, deterministic partition generation scripts, trained model checkpoints, and raw verification manifests are publicly available under the open-source MIT License at:</p>
 <p style="text-align: center; margin: 8px 0;">
-    <strong><a href="https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-">https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-</a></strong><br>
-    <small>Evaluated Release Commit Hash: <code>df7b377b16e9c3d6c61dbefcc4b19bfa5c1fbab7</code></small>
+    <strong><a href="https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-">https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-</a></strong>
 </p>
 <p>The complete 30-item regression unit test suite passes 100% in 26.91s (<code>results/final_submission_audit/test_report.xml</code>).</p>
 
 <h2 class="section-heading">IX. Conclusion</h2>
-<p class="no-indent">This study presented an empirical evaluation of adaptive anomaly thresholding, un-contaminated reinforcement learning mitigation, standardized post-quantum cryptography, and tamper-evident audit logging for IoT networks. Excluded EWMA prevents threshold inflation collapse (F1 = 0.9014), DQN achieves 71.20% attack containment with 0.77% false blocking, ML-KEM-768 provides sub-millisecond post-quantum transport security (0.4293 ms), and the full integrated framework achieves an end-to-end F1-Score of 0.8968 &plusmn; 0.0013 and 80.65% attack containment at 0.3781 ms edge latency.</p>
+<p class="no-indent">This study presented an empirical evaluation of adaptive anomaly thresholding, un-contaminated reinforcement learning mitigation, standardized post-quantum cryptography, and tamper-evident audit logging for IoT networks. Excluded EWMA prevents threshold inflation collapse (F1 = 0.9014), DQN achieves 71.26% attack containment with 0.63% false blocking, ML-KEM-768 provides sub-millisecond post-quantum transport security (0.2758 ms), and the full integrated framework achieves an end-to-end F1-Score of 0.8968 &plusmn; 0.0013 and 81.01% attack containment at 0.9626 ms edge latency.</p>
 
 <h2 class="section-heading">References</h2>
 <div class="references">
@@ -978,7 +1040,6 @@ th {{
     if res.returncode == 0 and os.path.exists(output_pdf):
         size_kb = os.path.getsize(output_pdf) / 1024
         print(f"SUCCESS: Generated {output_pdf} ({size_kb:.2f} KB)")
-        # Copy to submission directory
         import shutil
         shutil.copy2(output_pdf, submission_pdf)
         print(f"Copied to {submission_pdf}")
