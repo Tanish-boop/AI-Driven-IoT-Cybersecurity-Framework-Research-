@@ -1,0 +1,114 @@
+{
+  "environment": {
+    "timestamp": "2026-10-11T16:42:50Z",
+    "python_version": "3.13.4 (tags/v3.13.4:8a526ec, Jun  3 2025, 17:46:04) [MSC v.1943 64 bit (AMD64)]",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "cpu_arch": "AMD64",
+    "torch_version": "2.8.0+cpu",
+    "sklearn_version": "1.7.1",
+    "xgboost_version": "3.4.1",
+    "cryptography_version": "46.0.1"
+  },
+  "runs": [
+    {
+      "experiment_id": "E1_E2_E3_E8",
+      "name": "Detection Baselines & Threshold Stress Benchmark",
+      "command": "python scripts/run_full_benchmark.py",
+      "runtime_seconds": 135.5,
+      "exit_code": 0,
+      "status": "REPRODUCED",
+      "output_hashes": {
+        "results/metrics/full_benchmark_results.csv": "1429a625c1a6fbdfd584f1f4e6770507dcabe418284eedad2ddab9925cbfdb34",
+        "results/metrics/full_benchmark_summary.csv": "e2ae85b57de1e135b32438203363db347b6d160df2691f8d5401f44e40c66814",
+        "results/metrics/baseline_errors.npz": "b838f571fef01ce2d0af164d641a4abdd0f0932dff8bf0eb7fec2bdef448b8ed",
+        "results/metrics/statistical_tests.json": "dc8eb142fd65ad6dd196e127c52a5c0d1d923083336f067517aea0381c9769a2"
+      },
+      "copied_artifacts": [
+        "results/audit_rerun_20261011\\metrics\\full_benchmark_results.csv",
+        "results/audit_rerun_20261011\\metrics\\full_benchmark_summary.csv",
+        "results/audit_rerun_20261011\\metrics\\baseline_errors.npz",
+        "results/audit_rerun_20261011\\metrics\\statistical_tests.json"
+      ],
+      "stderr_snippet": ""
+    },
+    {
+      "experiment_id": "E4",
+      "name": "Un-Contaminated Defensive RL Response Experiment",
+      "command": "python scripts/run_e4_defense_experiment.py",
+      "runtime_seconds": 405.22,
+      "exit_code": 0,
+      "status": "REPRODUCED",
+      "output_hashes": {
+        "results/metrics/e4_policy_results_corrected.csv": "af36e65da462f1c21bd255982c9b719524f7d5babcf9bc669f1a197deb6bea50",
+        "results/metrics/e4_policy_summary_corrected.csv": "1eee601fcd7fba3094a31cdb5ced689905127f86b29659e7a631e732595014d9",
+        "results/metrics/e4_reward_sensitivity.csv": "eb21758b62b458cea7baab62c7c57caeb83ecb6286c8df9d283edabe616cd0e3"
+      },
+      "copied_artifacts": [
+        "results/audit_rerun_20261011\\metrics\\e4_policy_results_corrected.csv",
+        "results/audit_rerun_20261011\\metrics\\e4_policy_summary_corrected.csv",
+        "results/audit_rerun_20261011\\metrics\\e4_reward_sensitivity.csv"
+      ],
+      "stderr_snippet": ""
+    },
+    {
+      "experiment_id": "E5",
+      "name": "NIST FIPS 203 ML-KEM Post-Quantum Cryptography Benchmark",
+      "command": "python scripts/run_e5_crypto_benchmark.py",
+      "runtime_seconds": 3.64,
+      "exit_code": 0,
+      "status": "REPRODUCED",
+      "output_hashes": {
+        "results/metrics/e5_raw_results.csv": "2c8e6a03173fee92e7f4764d0863482f9a4e5a9df90df631dee4a97d9ddb465c",
+        "results/metrics/e5_summary.csv": "2c8e6a03173fee92e7f4764d0863482f9a4e5a9df90df631dee4a97d9ddb465c",
+        "results/metrics/e5_crypto_environment.json": "b7800ea36836f669390734951aa3ad8c7403532de2a20fe79c2b770990c01a2a"
+      },
+      "copied_artifacts": [
+        "results/audit_rerun_20261011\\metrics\\e5_raw_results.csv",
+        "results/audit_rerun_20261011\\metrics\\e5_summary.csv",
+        "results/audit_rerun_20261011\\metrics\\e5_crypto_environment.json"
+      ],
+      "stderr_snippet": ""
+    },
+    {
+      "experiment_id": "E6",
+      "name": "Integrity Verification Architecture Benchmark",
+      "command": "python scripts/run_e6_integrity_benchmark.py",
+      "runtime_seconds": 4.85,
+      "exit_code": 0,
+      "status": "REPRODUCED",
+      "output_hashes": {
+        "results/metrics/e6_raw_results.csv": "2b16483142418ebf67ac219eea6ff07b79fcbd43aa1f0172d84ec480499d6e1f",
+        "results/metrics/e6_summary.csv": "2b16483142418ebf67ac219eea6ff07b79fcbd43aa1f0172d84ec480499d6e1f",
+        "results/metrics/e6_scaling_summary.csv": "c804d8c558005244d69b617fae6096feebf32be1cb26d4cf164afc67e8d7bda6",
+        "results/metrics/e6_integrity_environment.json": "1fe7a7fcd5b012d3611fac1393d4ea7a964f25b939b195c1e458c4ff6fc1779e"
+      },
+      "copied_artifacts": [
+        "results/audit_rerun_20261011\\metrics\\e6_raw_results.csv",
+        "results/audit_rerun_20261011\\metrics\\e6_summary.csv",
+        "results/audit_rerun_20261011\\metrics\\e6_scaling_summary.csv",
+        "results/audit_rerun_20261011\\metrics\\e6_integrity_environment.json"
+      ],
+      "stderr_snippet": ""
+    },
+    {
+      "experiment_id": "E7",
+      "name": "Full Integrated Framework Ablation Benchmark",
+      "command": "python scripts/run_e7_ablation_experiment.py",
+      "runtime_seconds": 163.69,
+      "exit_code": 0,
+      "status": "REPRODUCED",
+      "output_hashes": {
+        "results/metrics/e7_ablation_results.csv": "edad090fd1c6beb63f2f8d4f4956637135152bc1ec81045a1ab9e7d18f5db6b0",
+        "results/metrics/e7_ablation_summary.csv": "820bdadc34c7f2ddc1d34d0695ff1cd67c384715216f4e0bdacd19e8ee8c9507",
+        "results/tables/table7_ablation_comparison.md": "c71bdf1045cb6d2913ab19b8c5068160e4ab36bf4054fc8882b1316b82fcadd9"
+      },
+      "copied_artifacts": [
+        "results/audit_rerun_20261011\\metrics\\e7_ablation_results.csv",
+        "results/audit_rerun_20261011\\metrics\\e7_ablation_summary.csv",
+        "results/audit_rerun_20261011\\tables\\table7_ablation_comparison.md"
+      ],
+      "stderr_snippet": ""
+    }
+  ],
+  "total_runtime_seconds": 713.19
+}

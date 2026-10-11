@@ -1,0 +1,10 @@
+Experiment,Model,Strategy,Precision,Recall,F1-Score,FPR,ROC-AUC
+base_stream,Dense-AE,Excluded_EWMA,0.9724 ± 0.0022,0.8401 ± 0.0023,0.9014 ± 0.0018,0.1360 ± 0.0110,0.9225 ± 0.0027
+base_stream,Dense-AE,Fixed_95,0.9893 ± 0.0003,0.8013 ± 0.0022,0.8854 ± 0.0013,0.0493 ± 0.0013,0.9225 ± 0.0027
+base_stream,Dense-AE,Fixed_99,0.9975 ± 0.0001,0.7650 ± 0.0017,0.8659 ± 0.0011,0.0108 ± 0.0004,0.9225 ± 0.0027
+base_stream,Dense-AE,Guarded_EWMA,1.0000 ± 0.0000,0.0022 ± 0.0000,0.0045 ± 0.0001,0.0000 ± 0.0000,0.9225 ± 0.0027
+base_stream,Dense-AE,UnGuarded_EWMA,1.0000 ± 0.0000,0.0001 ± 0.0000,0.0003 ± 0.0001,0.0000 ± 0.0000,0.9225 ± 0.0027
+base_stream,Isolation_Forest,Fixed_95,0.9866 ± 0.0003,0.6402 ± 0.0114,0.7765 ± 0.0084,0.0495 ± 0.0009,0.8828 ± 0.0095
+base_stream,XGBoost_Oracle,Supervised_Prob_0.5,0.9967 ± 0.0002,0.8662 ± 0.0009,0.9269 ± 0.0004,0.0162 ± 0.0012,0.9682 ± 0.0001
+feature_stress_test,Dense-AE,Fixed_95_Stress_1.5x,0.9796 ± 0.0019,0.8013 ± 0.0022,0.8815 ± 0.0017,0.0953 ± 0.0092,0.8933 ± 0.0030
+feature_stress_test,Dense-AE,Fixed_95_Stress_2.0x,0.9436 ± 0.0030,0.8013 ± 0.0022,0.8666 ± 0.0021,0.2733 ± 0.0152,0.8690 ± 0.0018

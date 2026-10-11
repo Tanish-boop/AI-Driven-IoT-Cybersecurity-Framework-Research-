@@ -1,0 +1,5 @@
+total_reward,containment_rate,false_block_rate,disruption_penalty,latency_ms,attack_total,attack_contained,benign_total,benign_falsely_blocked,policy,benign_block_penalty,scenario
+20845.0,57.8553032076797,0.0,0.0,0.014579439163208007,4271,2471,729,0,Q_Learning,-10.0,Scenario_1_Heavy_Attack
+15912.0,66.1437602435027,0.0,1851.0,0.012183284759521485,4271,2825,729,0,Q_Learning,-25.0,Scenario_1_Heavy_Attack
+11129.0,42.37883399672208,0.0,6.0,0.04317474365234375,4271,1810,729,0,Q_Learning,-50.0,Scenario_1_Heavy_Attack
+3023.0,46.78061343947553,0.0,0.0,0.06390542984008789,4271,1998,729,0,Q_Learning,-100.0,Scenario_1_Heavy_Attack

@@ -1,0 +1,6 @@
+{
+  "comparison": "Dense-AE Fixed_95 vs Fixed_99 F1-Score",
+  "wilcoxon_stat": 0.0,
+  "p_value": 0.0625,
+  "significant_p_lt_005": false
+}

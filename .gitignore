@@ -1,0 +1,46 @@
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.pyo
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+build/
+dist/
+*.egg-info/
+
+# Raw dataset files (CICIoT2023 raw parquets; download separately per policy)
+data/raw/
+*.parquet
+
+# Processed compressed datasets (regenerate via scripts/prepare_dataset.py)
+data/processed/*.npz
+data/processed/recovery/*.npz
+data/processed/recovery_test/*.npz
+
+# Scratch temporary testing scripts
+scratch/
+
+# LaTeX compilation auxiliary artifacts
+*.aux
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+*.out
+*.toc
+
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE & editor caches
+.vscode/
+.idea/

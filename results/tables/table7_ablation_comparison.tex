@@ -1,0 +1,17 @@
+\begin{table*}[t]
+\centering
+\caption{Experiment E7: Full Framework Integrated Ablation Study (Mean $\pm$ Std across 5 Random Seeds)}
+\label{tab:e7_ablation}
+\begin{tabular}{lcccccccc}
+\toprule
+Variant & F1-Score & Recall (\%) & Containment (\%) & False Block (\%) & Latency (ms) & Overhead (B) & Quantum Safe & Audit Immutability \\
+\midrule
+Base Paper Architecture & .8837 \pm 0.0004$ & .88\% \pm 0.06\%$ & .88\% \pm 0.06\%$ & .20\% \pm 0.07\%$ & .3319 \pm 0.0440$ & 194 & No (Vulnerable) & No (Unkeyed) \\
+Ablation (-Adaptive Threshold) & .8837 \pm 0.0004$ & .88\% \pm 0.06\%$ & .67\% \pm 2.51\%$ & .24\% \pm 3.44\%$ & .3815 \pm 0.0415$ & 321 & Yes (ML-KEM-768) & Yes (Hash Chain) \\
+Ablation (-RL Defense) & .8968 \pm 0.0013$ & .68\% \pm 0.24\%$ & .78\% \pm 0.06\%$ & .22\% \pm 0.06\%$ & .4791 \pm 0.3193$ & 321 & Yes (ML-KEM-768) & Yes (Hash Chain) \\
+Ablation (-PQC) & .8968 \pm 0.0013$ & .68\% \pm 0.24\%$ & .65\% \pm 3.16\%$ & .39\% \pm 2.51\%$ & .4484 \pm 0.2165$ & 321 & No (Vulnerable) & Yes (Hash Chain) \\
+Ablation (-Blockchain Log) & .8968 \pm 0.0013$ & .68\% \pm 0.24\%$ & .65\% \pm 3.16\%$ & .39\% \pm 2.51\%$ & .5523 \pm 0.4207$ & 194 & Yes (ML-KEM-768) & No (Unkeyed) \\
+\textbf{Full Proposed Framework} & $\mathbf{0.8968 \pm 0.0013}$ & $\mathbf{82.68\% \pm 0.24\%}$ & $\mathbf{80.65\% \pm 3.16\%}$ & .39\% \pm 2.51\%$ & $\mathbf{0.3781 \pm 0.0225}$ & 321 & \textbf{Yes (ML-KEM-768)} & \textbf{Yes (Hash Chain)} \\
+\bottomrule
+\end{tabular}
+\end{table*}

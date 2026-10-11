@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+message: "If you use this software or empirical evaluation protocol in your research, please cite it as below."
+authors:
+  - family-names: "Author"
+    given-names: "One"
+  - family-names: "Author"
+    given-names: "Two"
+  - family-names: "Author"
+    given-names: "Three"
+title: "An AI-Driven Adaptive Cybersecurity Framework for IoT: Anomaly Detection, Dynamic Thresholding, Un-Contaminated Reinforcement Learning Defense, Post-Quantum Cryptography, and Tamper-Evident Audit Logging"
+version: 1.0.0
+date-released: 2026-10-12
+url: "https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-"
+preferred-citation:
+  type: article
+  authors:
+    - family-names: "Author"
+      given-names: "One"
+    - family-names: "Author"
+      given-names: "Two"
+    - family-names: "Author"
+      given-names: "Three"
+  journal: "IEEE Access"
+  title: "An AI-Driven Adaptive Cybersecurity Framework for IoT: Anomaly Detection, Dynamic Thresholding, Un-Contaminated Reinforcement Learning Defense, Post-Quantum Cryptography, and Tamper-Evident Audit Logging"
+  year: 2026

@@ -1,0 +1,66 @@
+{
+  "manifest_version": "1.0.0",
+  "date_sealed": "2026-10-12",
+  "target_journal": "IEEE Access",
+  "environment": {
+    "os": "Windows 11 (AMD64 x86_64, 3.40 GHz)",
+    "python_version": "3.13.4",
+    "torch_version": "2.6.0",
+    "scikit_learn_version": "1.6.1",
+    "xgboost_version": "2.1.4"
+  },
+  "artifacts": {
+    "results/metrics/full_benchmark_results.csv": {
+      "sha256": "1429a625c1a6fbdfd584f1f4e6770507dcabe418284eedad2ddab9925cbfdb34",
+      "size_bytes": 7932
+    },
+    "results/metrics/full_benchmark_summary.csv": {
+      "sha256": "e2ae85b57de1e135b32438203363db347b6d160df2691f8d5401f44e40c66814",
+      "size_bytes": 1189
+    },
+    "results/metrics/deduplication_sensitivity_per_seed.csv": {
+      "sha256": "de09985f9238342e949094c3e7147fb55a4803fedd835308f99c5b9f7fea99f9",
+      "size_bytes": 3794
+    },
+    "results/metrics/deduplication_sensitivity_summary.csv": {
+      "sha256": "c4f5d3cc1fb79b2bbad71edf055f592ace122ace37bf27336f2b286461c45763",
+      "size_bytes": 780
+    },
+    "results/metrics/e4_policy_results_corrected.csv": {
+      "sha256": "af36e65da462f1c21bd255982c9b719524f7d5babcf9bc669f1a197deb6bea50",
+      "size_bytes": 3853
+    },
+    "results/metrics/e4_policy_summary_corrected.csv": {
+      "sha256": "1eee601fcd7fba3094a31cdb5ced689905127f86b29659e7a631e732595014d9",
+      "size_bytes": 821
+    },
+    "results/metrics/e5_summary.csv": {
+      "sha256": "2c8e6a03173fee92e7f4764d0863482f9a4e5a9df90df631dee4a97d9ddb465c",
+      "size_bytes": 6170
+    },
+    "results/metrics/e6_summary.csv": {
+      "sha256": "2b16483142418ebf67ac219eea6ff07b79fcbd43aa1f0172d84ec480499d6e1f",
+      "size_bytes": 3210
+    },
+    "results/metrics/e7_ablation_results.csv": {
+      "sha256": "edad090fd1c6beb63f2f8d4f4956637135152bc1ec81045a1ab9e7d18f5db6b0",
+      "size_bytes": 9459
+    },
+    "results/metrics/e7_ablation_summary.csv": {
+      "sha256": "820bdadc34c7f2ddc1d34d0695ff1cd67c384715216f4e0bdacd19e8ee8c9507",
+      "size_bytes": 1227
+    },
+    "results/metrics/statistical_tests.json": {
+      "sha256": "dc8eb142fd65ad6dd196e127c52a5c0d1d923083336f067517aea0381c9769a2",
+      "size_bytes": 143
+    },
+    "results/final_submission_audit/test_report.xml": {
+      "sha256": "83e10d57fc579651e272d6991e9d58eb5f5d235962e22b7f1d2cde4f34e6db01",
+      "size_bytes": 3440
+    },
+    "results/audit_rerun_20261011/audit_reproduction_manifest.json": {
+      "sha256": "42b2896883110388314bf99d46117c0be7891320e3f9d4ba3d73cf4a477ce183",
+      "size_bytes": 5594
+    }
+  }
+}

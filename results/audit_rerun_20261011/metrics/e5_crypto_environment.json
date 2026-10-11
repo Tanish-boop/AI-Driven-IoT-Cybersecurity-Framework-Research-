@@ -1,0 +1,8 @@
+{
+  "timestamp_local": "2026-10-09T15:55:00",
+  "os_platform": "Windows-11-10.0.26300-SP0",
+  "python_version": "3.13.4 (tags/v3.13.4:8a526ec, Jun  3 2025, 17:46:04) [MSC v.1943 64 bit (AMD64)]",
+  "provider_library": "pqcrypto (1.0.0, C-optimized NIST FIPS 203 implementation)",
+  "aead_algorithm": "AES-256-GCM (cryptography 46.0.1 OpenSSL provider)",
+  "kdf_algorithm": "HKDF-SHA256"
+}

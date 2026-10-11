@@ -1,0 +1,10 @@
+{
+  "timestamp_local": "2026-10-09T13:07:30",
+  "os_platform": "Windows-11-10.0.26300-SP0",
+  "python_version": "3.13.4 (tags/v3.13.4:8a526ec, Jun  3 2025, 17:46:04) [MSC v.1943 64 bit (AMD64)]",
+  "torch_version": "2.8.0+cpu",
+  "sklearn_version": "1.7.1",
+  "pandas_version": "2.3.1",
+  "numpy_version": "2.3.2",
+  "random_seed": 42
+}

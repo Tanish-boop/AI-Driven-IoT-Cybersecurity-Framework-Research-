@@ -1,0 +1,7 @@
+Partition,Total_Rows,Complete_Row_Duplicates,Feature_Vector_Duplicates,Unsup_Train_Overlap,Unsup_Val_Overlap,Test_Overlap
+Raw_Train,1073851,84370,103704,N/A,N/A,201148
+Raw_Test,268463,9434,13340,N/A,N/A,201148
+Unsup_Train,100000,285,285,0,73,81
+Unsup_Val,30000,45,45,73,0,57
+Supervised_Train,40000,232,232,N/A,N/A,115
+Test,100000,2473,2473,81,57,0
