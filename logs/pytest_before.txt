@@ -1,0 +1,43 @@
+﻿============================= test session starts =============================
+platform win32 -- Python 3.13.4, pytest-9.0.3, pluggy-1.6.0 -- C:\Python313\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\hp\OneDrive\Desktop\Research Experiments
+plugins: anyio-4.10.0, langsmith-0.4.30
+collecting ... collected 34 items
+
+tests/test_e4_uncontaminated.py::test_uncontaminated_split_isolation PASSED [  2%]
+tests/test_e4_uncontaminated.py::test_env_reward_sensitivity PASSED      [  5%]
+tests/test_e4_uncontaminated.py::test_action_bounds PASSED               [  8%]
+tests/test_e5_crypto.py::test_ml_kem_artifact_sizes[ML-KEM-512-800-1632-768] PASSED [ 11%]
+tests/test_e5_crypto.py::test_ml_kem_artifact_sizes[ML-KEM-768-1184-2400-1088] PASSED [ 14%]
+tests/test_e5_crypto.py::test_ml_kem_artifact_sizes[ML-KEM-1024-1568-3168-1568] PASSED [ 17%]
+tests/test_e5_crypto.py::test_tamper_rejection[ML-KEM-512] PASSED        [ 20%]
+tests/test_e5_crypto.py::test_tamper_rejection[ML-KEM-768] PASSED        [ 23%]
+tests/test_e5_crypto.py::test_tamper_rejection[ML-KEM-1024] PASSED       [ 26%]
+tests/test_e5_crypto.py::test_benchmark_kem_variant_structure PASSED     [ 29%]
+tests/test_e6_integrity.py::test_salted_sha256_validity PASSED           [ 32%]
+tests/test_e6_integrity.py::test_salted_sha256_payload_tamper PASSED     [ 35%]
+tests/test_e6_integrity.py::test_salted_sha256_unkeyed_limitation PASSED [ 38%]
+tests/test_e6_integrity.py::test_hmac_sha256_validity PASSED             [ 41%]
+tests/test_e6_integrity.py::test_hmac_sha256_payload_tamper PASSED       [ 44%]
+tests/test_e6_integrity.py::test_hmac_sha256_wrong_key_rejection PASSED  [ 47%]
+tests/test_e6_integrity.py::test_blockchain_validity PASSED              [ 50%]
+tests/test_e6_integrity.py::test_blockchain_payload_tamper_detected PASSED [ 52%]
+tests/test_e6_integrity.py::test_blockchain_broken_link_detected PASSED  [ 55%]
+tests/test_e6_integrity.py::test_blockchain_deletion_detected PASSED     [ 58%]
+tests/test_e6_integrity.py::test_blockchain_insertion_detected PASSED    [ 61%]
+tests/test_e6_integrity.py::test_blockchain_reordering_detected PASSED   [ 64%]
+tests/test_e6_integrity.py::test_blockchain_rewrite_limitation_demonstrated PASSED [ 67%]
+tests/test_e7_pipeline.py::test_pipeline_baseline_run PASSED             [ 70%]
+tests/test_e7_pipeline.py::test_pipeline_full_proposed_run PASSED        [ 73%]
+tests/test_e7_pipeline.py::test_all_ablation_variants_functional PASSED  [ 76%]
+tests/test_recovery_pipeline.py::TestRecoveryPipeline::test_label_exclusion PASSED [ 79%]
+tests/test_recovery_pipeline.py::TestRecoveryPipeline::test_missing_and_infinite_values PASSED [ 82%]
+tests/test_recovery_pipeline.py::TestRecoveryPipeline::test_pipeline_execution_and_leakage PASSED [ 85%]
+tests/test_recovery_pipeline.py::TestRecoveryPipeline::test_reproducible_splitting PASSED [ 88%]
+tests/test_threshold_adaptation.py::TestThresholdMethods::test_cgb_bounded_step_movement PASSED [ 91%]
+tests/test_threshold_adaptation.py::TestThresholdMethods::test_contamination_gated_threshold PASSED [ 94%]
+tests/test_threshold_adaptation.py::TestThresholdMethods::test_fixed_threshold PASSED [ 97%]
+tests/test_threshold_adaptation.py::TestThresholdMethods::test_unguarded_collapse PASSED [100%]
+
+============================= 34 passed in 36.43s =============================

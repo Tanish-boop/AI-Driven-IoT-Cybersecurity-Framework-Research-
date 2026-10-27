@@ -1,0 +1,19 @@
+{
+  "date": "2026-10-16",
+  "eval_script": "experiments/valid_evaluation_20261016/run_valid_evaluation.py",
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    2026
+  ],
+  "scenarios": {
+    "scenario_1_nominal": "Nominal held-out stream without modification (N=100k)",
+    "scenario_2_synthetic_score_shift": "Synthetic score-level stress test (1.8x on benign scores)",
+    "scenario_3_feature_benign_drift": "Feature-level rate scaling (2.0x on features 3, 35, 38 before AE)",
+    "scenario_4_adversarial_contamination": "Structured 20k attack flood (t=10k..30k) + 20k clean recovery (t=30k..50k)",
+    "scenario_5_mixed_drift_and_contamination": "Compound: feature drift (0..20k), attack flood (20k..40k), recovery (40k..60k)"
+  },
+  "firewall_verified": true
+}

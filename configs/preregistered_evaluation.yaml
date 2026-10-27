@@ -1,0 +1,150 @@
+experiment_name: "valid_evaluation_20261016"
+version: "1.0.0"
+date: "2026-10-16"
+repository_branch: "research/valid-evaluation"
+
+data:
+  processed_npz: "data/processed/recovery/recovery_processed.npz"
+  manifest_json: "data/processed/recovery/recovery_manifest.json"
+  feature_count: 39
+  partitions:
+    train_unsupervised:
+      size: 100000
+      composition: "100% Benign"
+    validation_calibration:
+      size: 30000
+      composition: "100% Benign"
+    supervised_oracle_train:
+      size: 40000
+      composition: "85% Attack, 15% Benign"
+    held_out_test:
+      size: 100000
+      composition: "85% Attack, 15% Benign"
+
+seeds:
+  - 42
+  - 123
+  - 456
+  - 789
+  - 2026
+
+test_label_firewall:
+  enforce_strict_isolation: true
+  allowed_in_prediction_functions: false
+  allowed_in_online_controllers: false
+  allowed_only_in_final_scoring: true
+
+scenarios:
+  - id: "scenario_1_nominal"
+    name: "Nominal Held-Out Test Stream"
+    description: "Unmodified held-out evaluation stream (N=100,000)."
+    transformation_level: "none"
+
+  - id: "scenario_2_synthetic_score_shift"
+    name: "Synthetic Score-Level Stress Test"
+    description: "Multiplicative scaling (1.8x) applied to benign test reconstruction errors."
+    transformation_level: "score"
+    multiplier: 1.8
+    applied_to: "benign_scores_for_evaluation"
+    classification: "synthetic_stress_only"
+
+  - id: "scenario_3_feature_benign_drift"
+    name: "Feature-Level Rate Scaling Stress Test"
+    description: "Input feature scaling (1.5x and 2.0x) applied to raw rate and volume features ('Rate', 'Tot size', 'Variance') prior to detector inference."
+    transformation_level: "feature"
+    feature_indices: [3, 35, 38]
+    scale_factors: [1.5, 2.0]
+
+  - id: "scenario_4_adversarial_contamination"
+    name: "Structured Attack Contamination Episode"
+    description: "Predeclared attack flood episode (20,000 consecutive attack records from t=10,000 to t=30,000) followed by a 20,000-sample clean recovery window (t=30,000 to t=50,000)."
+    transformation_level: "stream_ordering"
+    attack_injection_start: 10000
+    attack_injection_end: 30000
+    recovery_window_end: 50000
+
+  - id: "scenario_5_mixed_drift_and_contamination"
+    name: "Mixed Drift and Contamination Stream"
+    description: "Feature-level rate scaling applied during t=0..20,000, followed by a contamination burst during t=20,000..40,000, and recovery during t=40,000..60,000."
+    transformation_level: "compound"
+
+methods:
+  - name: "Fixed_95"
+    type: "static"
+    percentile: 95.0
+    calibrated_on: "X_val"
+
+  - name: "Fixed_99"
+    type: "static"
+    percentile: 99.0
+    calibrated_on: "X_val"
+
+  - name: "Raw_EWMA"
+    type: "adaptive_ungated"
+    alpha: 0.02
+    k: 2.5
+    calibrated_on: "X_val"
+
+  - name: "Excluded_EWMA"
+    type: "adaptive_normal_only"
+    alpha: 0.02
+    k: 2.5
+    calibrated_on: "X_val"
+
+  - name: "CGB_Adaptive"
+    type: "contamination_gated_bounded"
+    alpha: 0.01
+    k: 2.5
+    buffer_margin: 0.85
+    cooldown: 15
+    max_alert_rate: 0.08
+    window: 50
+    max_delta: 0.005
+    calibrated_on: "X_val"
+
+  - name: "Gated_Rolling_Quantile"
+    type: "rolling_quantile_gated"
+    buffer_size: 1000
+    quantile: 95.0
+    cooldown: 10
+    max_alert_rate: 0.08
+    window: 50
+    calibrated_on: "X_val"
+
+  - name: "Robust_Median_MAD"
+    type: "robust_statistics"
+    k_mad: 3.0
+    buffer_size: 1000
+    cooldown: 10
+    max_alert_rate: 0.08
+    calibrated_on: "X_val"
+
+predeclared_endpoints:
+  - metric: "precision"
+    type: "classification"
+  - metric: "recall"
+    type: "classification"
+  - metric: "f1_score"
+    type: "classification"
+  - metric: "fpr"
+    type: "classification"
+  - metric: "fnr"
+    type: "classification"
+  - metric: "confusion_matrix"
+    type: "counts"
+  - metric: "max_threshold_inflation"
+    type: "stability"
+  - metric: "recovery_duration_samples"
+    type: "resilience"
+  - metric: "inference_latency_us"
+    type: "computational"
+
+predeclared_criteria:
+  contamination_resilience:
+    target: "Recall >= 80.0% under attack contamination episode"
+    failure_mode: "Threshold inflation collapse (Recall < 10.0%)"
+  nominal_false_alarms:
+    target: "FPR <= 8.5% on nominal held-out stream"
+    comparison: "Must improve upon naive Excluded EWMA (FPR ~ 13.6-15.4%)"
+  drift_tradeoff:
+    target: "Explicitly report trade-off; do not claim universal superiority under benign drift if FPR exceeds static baseline"

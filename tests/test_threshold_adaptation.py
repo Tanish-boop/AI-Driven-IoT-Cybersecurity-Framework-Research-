@@ -11,7 +11,10 @@ from src.thresholding.threshold_methods import (
     UnGuardedAdaptiveThreshold,
     ExcludedAdaptiveThreshold,
     GuardedAdaptiveThreshold,
-    ContaminationGatedAdaptiveThreshold
+    ContaminationGatedAdaptiveThreshold,
+    GatedRollingQuantileThreshold,
+    RobustMedianMADThreshold,
+    TruncationCorrectedAdaptiveThreshold
 )
 
 class TestThresholdMethods(unittest.TestCase):
@@ -67,5 +70,69 @@ class TestThresholdMethods(unittest.TestCase):
         # Allow tiny epsilon for numerical precision
         self.assertTrue(np.all(step_diffs <= max_delta + 1e-6))
 
+    def test_cgb_decision_invariants(self):
+        """Verify decision invariant: preds[t] == 1 iff test_errors[t] > taus[t]."""
+        cgb = ContaminationGatedAdaptiveThreshold()
+        preds, taus = cgb.evaluate_stream(self.val_errors, self.test_errors)
+        # 1. Decision consistency invariant
+        expected_preds = (self.test_errors > taus).astype(int)
+        self.assertTrue(np.array_equal(preds, expected_preds), "Predictions must strictly reflect errors > taus")
+        # 2. Strict numerical validity invariant (finite, positive)
+        self.assertFalse(np.isnan(taus).any(), "Thresholds must contain no NaNs")
+        self.assertFalse(np.isinf(taus).any(), "Thresholds must contain no Infs")
+        self.assertTrue(np.all(taus > 0), "Thresholds must be strictly positive")
+
+    def test_gated_rolling_quantile(self):
+        """Verify GatedRollingQuantile resists attack floods and tracks clean errors."""
+        rq = GatedRollingQuantileThreshold(buffer_size=500, quantile=95.0, cooldown=10)
+        preds, taus = rq.evaluate_stream(self.val_errors, self.test_errors)
+        self.assertEqual(len(preds), len(self.test_errors))
+        attack_detected = np.sum(preds[1000:] == 1)
+        self.assertGreaterEqual(attack_detected, 950)
+        false_positives = np.sum(preds[:1000] == 1)
+        self.assertLess(false_positives / 1000.0, 0.12)
+
+    def test_robust_median_mad(self):
+        """Verify RobustMedianMAD resists attack floods."""
+        rm = RobustMedianMADThreshold(buffer_size=500, k_mad=3.0, cooldown=10)
+        preds, taus = rm.evaluate_stream(self.val_errors, self.test_errors)
+        self.assertEqual(len(preds), len(self.test_errors))
+        attack_detected = np.sum(preds[1000:] == 1)
+        self.assertGreaterEqual(attack_detected, 950)
+
+    def test_tca_threshold_flood_and_fpr(self):
+        """TCA-Adaptive must resist attack flood and maintain low false positive rate."""
+        tca = TruncationCorrectedAdaptiveThreshold(target_percentile=93.0, k=2.0, alpha=0.015, max_delta=0.008)
+        preds, taus = tca.evaluate_stream(self.val_errors, self.test_errors)
+        self.assertEqual(len(preds), len(self.test_errors))
+        attack_detected = np.sum(preds[1000:] == 1)
+        self.assertGreaterEqual(attack_detected, 950, "TCA must not collapse under attack flood")
+        false_positives = np.sum(preds[:1000] == 1)
+        fpr = false_positives / 1000.0
+        self.assertLess(fpr, 0.08, "TCA must keep false positive rate under 8%")
+
+    def test_tca_decision_invariants(self):
+        """Verify TCA decision consistency and numerical validity."""
+        tca = TruncationCorrectedAdaptiveThreshold()
+        preds, taus = tca.evaluate_stream(self.val_errors, self.test_errors)
+        expected_preds = (self.test_errors > taus).astype(int)
+        self.assertTrue(np.array_equal(preds, expected_preds), "Predictions must strictly reflect errors > taus")
+        self.assertFalse(np.isnan(taus).any(), "TCA thresholds must contain no NaNs")
+        self.assertFalse(np.isinf(taus).any(), "TCA thresholds must contain no Infs")
+        self.assertTrue(np.all(taus > 0), "TCA thresholds must be strictly positive")
+        # Step-size boundedness
+        step_diffs = np.abs(np.diff(taus))
+        self.assertTrue(np.all(step_diffs <= 0.008 + 1e-6), "Step diffs must respect max_delta")
+
+    def test_firewall_rejection_of_labels(self):
+        """Verify test-label firewall: evaluate_stream must NOT accept ground-truth labels."""
+        cgb = ContaminationGatedAdaptiveThreshold()
+        with self.assertRaises(TypeError):
+            cgb.evaluate_stream(self.val_errors, self.test_errors, y_test=self.y_true)
+        tca = TruncationCorrectedAdaptiveThreshold()
+        with self.assertRaises(TypeError):
+            tca.evaluate_stream(self.val_errors, self.test_errors, y_test=self.y_true)
+
 if __name__ == '__main__':
     unittest.main()
+

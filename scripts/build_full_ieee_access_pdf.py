@@ -25,9 +25,10 @@ def main():
     submission_pdf = os.path.join(repo_root, "submission", "paper", "IEEE_Access_Final_Manuscript.pdf")
     html_out = os.path.join(repo_root, "paper", "manuscript_formatted.html")
 
-    # Load verified images as Base64 for headless rendering
     f0 = encode_image(os.path.join(fig_dir, "figure0_system_architecture.png"))
     f1 = encode_image(os.path.join(fig_dir, "figure1_threshold_comparison.png"))
+    f_traces = encode_image(os.path.join(fig_dir, "figure2_threshold_traces.png"))
+    f_scenarios = encode_image(os.path.join(fig_dir, "figure8_scenario_comparison.png"))
     f2 = encode_image(os.path.join(fig_dir, "figure2_rate_stress_test.png"))
     f3 = encode_image(os.path.join(fig_dir, "figure3_per_attack_recall.png"))
     f4 = encode_image(os.path.join(fig_dir, "figure4_defense_rewards.png"))
@@ -295,7 +296,7 @@ th {{
 </div>
 
 <div class="abstract-box">
-    <strong>Abstract</strong>&mdash;In Internet of Things (IoT) edge cybersecurity, deep reconstruction-based autoencoders provide effective detection of zero-day network intrusions without requiring labeled attack samples during training. However, translating continuous reconstruction errors into operational mitigation decisions faces critical vulnerabilities: static decision thresholds explode in false alarms under non-stationary traffic surges, un-guarded adaptive thresholds suffer severe threshold inflation collapse during attack floods, defensive reinforcement learning policies risk evaluation split contamination, and existing literature relies on abstract non-standardized cryptographic assumptions. This paper presents an empirically rigorous benchmark evaluating an integrated five-stage cybersecurity framework on CICIoT2023 across 5 random seeds (42, 123, 456, 789, 2026) under strictly isolated training, validation, supervised, and held-out test splits. Our empirical results establish that: (1) Sample-level Dense Autoencoders (<em>L</em>=1) eliminate sequence window boundary contamination, achieving an unsupervised baseline F1-Score of <strong>0.8854 &plusmn; 0.0013</strong> (Precision: 0.9893, Recall: 0.8013, FPR: 0.0493 &plusmn; 0.0013); (2) Excluded EWMA thresholding prevents inflation collapse, reaching F1 = <strong>0.9014 &plusmn; 0.0018</strong> and coming within 2.55% of a supervised XGBoost oracle (F1 = 0.9269 &plusmn; 0.0004), albeit with an elevated false positive rate (13.60 &plusmn; 1.10%); (3) Static 95th percentile thresholds suffer a +454.4% explosion in false positive rates under 2.0&times; synthetic rate feature scaling; (4) Under strictly un-contaminated evaluation (<em>X</em><sub>sup</sub> training, held-out <em>X</em><sub>test</sub> evaluation), Deep Q-Networks achieve <strong>71.26 &plusmn; 0.09%</strong> attack containment with <strong>0.63 &plusmn; 0.46%</strong> false block rate (decision latency: 0.1160 &plusmn; 0.0052 ms), while Tabular Q-Learning achieves a 0.00% false block rate in isolated testing; (5) Standardized NIST FIPS 203 ML-KEM-768 key encapsulation paired with AES-256-GCM achieves sub-millisecond key establishment (<strong>0.2758 ms</strong> KEM, 0.2905 ms first-message setup) and 100% tamper rejection; (6) HMAC-SHA-256 (0.0470 ms creation) and Tamper-Evident Hash-Chain Audit Logging (0.0605 ms append, <em>O</em>(1) scaling) provide verifiable sequence integrity and tamper localization; (7) In sensitivity testing, evaluating on a deduplicated test set (<em>N</em>=98,543) purging all 1,457 cross-partition duplicates shifts F1 by at most &minus;0.0009 (&minus;0.10%), confirming that repeated feature patterns do not materially inflate evaluation metrics; and (8) The full integrated framework achieves an end-to-end F1-Score of <strong>0.8968 &plusmn; 0.0013</strong> and <strong>81.01% &plusmn; 2.83%</strong> attack containment with edge processing latency of <strong>0.9626 &plusmn; 0.6304 ms</strong> (1,436.2 &plusmn; 759.5 events/s throughput).
+    <strong>Abstract</strong>&mdash;In Internet of Things (IoT) edge cybersecurity, deep reconstruction-based autoencoders provide effective detection of zero-day network intrusions without requiring labeled attack samples during training. However, translating continuous reconstruction errors into operational mitigation decisions faces critical vulnerabilities: static decision thresholds explode in false alarms under non-stationary traffic surges, un-guarded adaptive thresholds suffer severe threshold inflation collapse during attack floods, defensive reinforcement learning policies risk evaluation split contamination, and existing literature relies on abstract non-standardized cryptographic assumptions. This paper presents an empirically rigorous benchmark evaluating an integrated five-stage cybersecurity framework on CICIoT2023 across 5 random seeds (42, 123, 456, 789, 2026) under strictly isolated training, validation, supervised, and held-out test splits with an enforced test-label firewall. Our empirical results establish that: (1) Sample-level Dense Autoencoders (<em>L</em>=1) eliminate sequence window boundary contamination, achieving an unsupervised baseline F1-Score of <strong>0.8854 &plusmn; 0.0013</strong> (Precision: 0.9893, Recall: 0.8013, FPR: 0.0493 &plusmn; 0.0013) with 1.35 &mu;s latency, outperforming sliding-window recurrent models; (2) On the nominal clean stream, Excluded EWMA achieves F1 = <strong>0.9014 &plusmn; 0.0018</strong> (FPR: 13.60 &plusmn; 1.10%), while the Contamination-Gated Bounded (CGB) adaptive controller achieves F1 = <strong>0.8937 &plusmn; 0.0021</strong> with FPR = <strong>8.64 &plusmn; 0.23%</strong>, reducing false alarms by ~5.0% over Excluded EWMA; (3) Under a 20,000-sample hostile attack flood episode, un-guarded EWMA suffers catastrophic threshold inflation (2.4M&times; inflation, Recall collapsing to 0.03%, FNR 99.97%), whereas CGB maintains flood immunity (F1 = <strong>0.8832 &plusmn; 0.0022</strong>) and cuts false alarms nearly in half compared to naive Excluded EWMA (9.49% vs 17.09%); (4) Under synthetic feature rate scaling (2.0&times;), static threshold FPR increases to 27.33% and un-retrained score-level gating yields 36.43%, confirming that feature-space distribution shifts require model retraining rather than pure threshold gating; (5) Under strictly un-contaminated evaluation (<em>X</em><sub>sup</sub> training, held-out <em>X</em><sub>test</sub> evaluation), Deep Q-Networks achieve <strong>71.26 &plusmn; 0.09%</strong> attack containment with <strong>0.63 &plusmn; 0.46%</strong> false block rate (decision latency: 0.1160 &plusmn; 0.0052 ms); (6) Standardized NIST FIPS 203 ML-KEM-768 key encapsulation paired with AES-256-GCM achieves sub-millisecond key establishment (<strong>0.2758 ms</strong> KEM, 0.2905 ms first-message setup) and 100% tamper rejection; (7) HMAC-SHA-256 (0.0470 ms creation) and Tamper-Evident Hash-Chain Audit Logging (0.0605 ms append, <em>O</em>(1) scaling) provide verifiable sequence integrity and tamper localization; (8) In sensitivity testing, evaluating on a deduplicated test set (<em>N</em>=98,543) purging all 1,457 cross-partition duplicates shifts F1 by at most &minus;0.0009 (&minus;0.10%), confirming that repeated feature patterns do not materially inflate evaluation metrics; and (9) The full integrated framework achieves an end-to-end F1-Score of <strong>0.8968 &plusmn; 0.0013</strong> and <strong>81.01% &plusmn; 2.83%</strong> attack containment with edge processing latency of <strong>0.9626 &plusmn; 0.6304 ms</strong> (1,436.2 &plusmn; 759.5 events/s throughput).
     <div class="keywords">
         <strong>Index Terms</strong>&mdash;Internet of Things (IoT), Anomaly Detection, Adaptive Thresholding, Reinforcement Learning, Post-Quantum Cryptography, NIST FIPS 203, ML-KEM-768, Tamper-Evident Hash Chain, CICIoT2023.
     </div>
@@ -382,6 +383,14 @@ th {{
             </tr>
             <tr>
                 <td>Dense-AE</td>
+                <td><strong>CGB Adaptive (Gated)</strong></td>
+                <td>0.9819 &plusmn; 0.0005</td>
+                <td>0.8201 &plusmn; 0.0033</td>
+                <td>0.8937 &plusmn; 0.0021</td>
+                <td><strong>0.0864 &plusmn; 0.0023</strong></td>
+            </tr>
+            <tr>
+                <td>Dense-AE</td>
                 <td>Fixed 95th Percentile</td>
                 <td>0.9893 &plusmn; 0.0003</td>
                 <td>0.8013 &plusmn; 0.0022</td>
@@ -398,11 +407,19 @@ th {{
             </tr>
             <tr>
                 <td>Dense-AE</td>
-                <td>Guarded EWMA</td>
-                <td>1.0000 &plusmn; 0.0000</td>
-                <td>0.0022 &plusmn; 0.0000</td>
-                <td>0.0045 &plusmn; 0.0001</td>
-                <td>0.0000 &plusmn; 0.0000</td>
+                <td>Gated Rolling Quantile</td>
+                <td>0.9893 &plusmn; 0.0003</td>
+                <td>0.8013 &plusmn; 0.0022</td>
+                <td>0.8854 &plusmn; 0.0013</td>
+                <td>0.0493 &plusmn; 0.0013</td>
+            </tr>
+            <tr>
+                <td>Dense-AE</td>
+                <td>Robust Median-MAD</td>
+                <td>0.9795 &plusmn; 0.0010</td>
+                <td>0.8253 &plusmn; 0.0029</td>
+                <td>0.8958 &plusmn; 0.0020</td>
+                <td>0.0986 &plusmn; 0.0046</td>
             </tr>
             <tr>
                 <td>Dense-AE</td>
@@ -433,17 +450,84 @@ th {{
 </div>
 
 <div class="figure-container">
-    <img src="{f1}" alt="F1 Comparison">
-    <div class="caption"><strong>FIGURE 2.</strong> Dense-AE Performance and False Positive Rates Across Threshold Adaptation Strategies (5 Seeds, Mean &plusmn; Std).</div>
+    <img src="{f1}" alt="F1 vs FPR Trade-off">
+    <div class="caption"><strong>FIGURE 2.</strong> F1-Score vs. False Positive Rate Trade-Off on Nominal Test Stream (5 Random Seeds, Mean &plusmn; Std).</div>
 </div>
 
-<p>As evident in Table I, Un-Guarded EWMA experiences complete threshold inflation collapse: as attack records enter the evaluation window, the mean reconstruction error expands exponentially, raising &tau;<sub><i>t</i></sub> above attack error levels and driving recall to 0.01% (F1 = 0.0003). In contrast, <strong>Excluded EWMA</strong> prevents hostile sample pollution, achieving F1 = <strong>0.9014 &plusmn; 0.0018</strong>, outperforming Fixed 95th (0.8854) and Fixed 99th (0.8659). However, Excluded EWMA incurs an elevated FPR (13.60% vs 4.93%), representing an operational trade-off.</p>
+<p>As demonstrated in Table I and Figure 2, Un-Guarded EWMA suffers catastrophic threshold inflation collapse: hostile attack scores enter background statistics, causing &tau;<sub><i>t</i></sub> to explode by 2,403,808&times;, missing 99.99% of attacks. Excluded EWMA prevents this collapse by updating strictly on non-flagged events, achieving F1 = <strong>0.9014 &plusmn; 0.0018</strong>, but incurs a 13.60% FPR. The <strong>Contamination-Gated Bounded (CGB)</strong> controller cuts false alarms down to <strong>8.64 &plusmn; 0.23%</strong> (a ~5.0% absolute reduction) while sustaining F1 = 0.8937 &plusmn; 0.0021.</p>
 
-<h3 class="subheading">B. Deduplication Sensitivity Evaluation</h3>
-<p class="no-indent">Table II establishes metric stability when removing identical feature vectors across partitions:</p>
+<h3 class="subheading">B. Contamination Resilience & Multi-Scenario Benchmark (Scenarios 1–5)</h3>
+<p class="no-indent">To assess operational robustness under dynamic non-stationary conditions, we evaluated 5 pre-registered scenarios across all 5 seeds under strict test-label firewall isolation:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE II. Deduplication Sensitivity Analysis (5 Seeds)</div>
+    <div class="table-caption">TABLE II. Multi-Scenario Detection Performance (F1-Score / FPR %, 5 Seeds)</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Scenario</th>
+                <th>Fixed 95th</th>
+                <th>Excluded EWMA</th>
+                <th>CGB Adaptive</th>
+                <th>Gated Quantile</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1. Nominal Clean</td>
+                <td>88.54% / 4.93%</td>
+                <td>90.14% / 13.60%</td>
+                <td>89.37% / 8.64%</td>
+                <td>88.54% / 4.93%</td>
+            </tr>
+            <tr>
+                <td>2. Score Shift (1.8&times;)</td>
+                <td>87.98% / 11.56%</td>
+                <td>88.41% / 21.41%</td>
+                <td>88.40% / 20.08%</td>
+                <td>87.98% / 11.56%</td>
+            </tr>
+            <tr>
+                <td>3. Feature Drift (2.0&times;)</td>
+                <td>86.66% / 27.33%</td>
+                <td>87.33% / 39.63%</td>
+                <td>87.06% / 36.43%</td>
+                <td>86.66% / 27.33%</td>
+            </tr>
+            <tr>
+                <td>4. Attack Flood (20k)</td>
+                <td>87.92% / 5.02%</td>
+                <td>87.78% / 17.09%</td>
+                <td><strong>88.32% / 9.49%</strong></td>
+                <td>87.85% / 15.73%</td>
+            </tr>
+            <tr>
+                <td>5. Mixed Episode</td>
+                <td>87.49% / 7.31%</td>
+                <td>87.14% / 19.60%</td>
+                <td>87.78% / 12.27%</td>
+                <td>87.20% / 17.35%</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="figure-container">
+    <img src="{f_traces}" alt="Threshold Trajectories">
+    <div class="caption"><strong>FIGURE 3.</strong> Threshold Trajectories during 20,000-Sample Adversarial Contamination Episode and Recovery Window.</div>
+</div>
+
+<div class="figure-container">
+    <img src="{f_scenarios}" alt="Scenario Comparison">
+    <div class="caption"><strong>FIGURE 4.</strong> Anomaly Detection Performance (F1-Score and FPR) Across Five Evaluated Scenarios.</div>
+</div>
+
+<p><em>Empirical Insight</em>: Figure 3 illustrates that during the 20k attack flood episode, Raw EWMA inflates exponentially into oblivion, driving recall to 0.03% (FNR 99.97%). CGB's eligibility gating and alert-freeze mechanism completely isolate background statistics from contamination, maintaining 82.15% recall (F1 = 88.32%) while cutting false alarms from 17.09% (Excluded EWMA) to 9.49%. Conversely, Scenario 3 reveals that under true feature-level rate drift (2.0&times;), pure score-level threshold gating without feature retraining suffers elevated FPR (36.43%), establishing that feature distribution drift demands feature-space adaptation rather than pure threshold gating.</p>
+
+<h3 class="subheading">C. Deduplication Sensitivity Evaluation</h3>
+<p class="no-indent">Table III establishes metric stability when removing identical feature vectors across partitions:</p>
+
+<div class="table-container">
+    <div class="table-caption">TABLE III. Deduplication Sensitivity Analysis (5 Seeds)</div>
     <table>
         <thead>
             <tr>
@@ -480,11 +564,11 @@ th {{
     </table>
 </div>
 
-<h3 class="subheading">C. Rate Feature Stress Testing (E3, E8)</h3>
-<p class="no-indent">Table III and Figure 3 quantify the vulnerability of static thresholds under synthetic rate feature value scaling (1.0&times;, 1.5&times;, 2.0&times;):</p>
+<h3 class="subheading">D. Rate Feature Stress Testing (E3, E8)</h3>
+<p class="no-indent">Table IV and Figure 5 quantify the vulnerability of static thresholds under synthetic rate feature value scaling (1.0&times;, 1.5&times;, 2.0&times;):</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE III. Rate Feature Stress Test Performance (E8)</div>
+    <div class="table-caption">TABLE IV. Rate Feature Stress Test Performance (E8)</div>
     <table>
         <thead>
             <tr>
@@ -527,16 +611,16 @@ th {{
 
 <div class="figure-container">
     <img src="{f2}" alt="FPR Stress Test">
-    <div class="caption"><strong>FIGURE 3.</strong> False Positive Rate Explosion Under Synthetic Rate Feature Scaling on Dense-AE Fixed 95th (E8).</div>
+    <div class="caption"><strong>FIGURE 5.</strong> False Positive Rate Explosion Under Synthetic Rate Feature Scaling on Dense-AE Fixed 95th (E8).</div>
 </div>
 
 <p><em>Operational Scope Disclosure</em>: In Experiment E8, synthetic scaling was applied strictly to rate features (`Rate`, `Tot size`, `Variance`) of benign test samples for Fixed 95th Percentile thresholding to evaluate sensitivity to burst telemetry. Excluded EWMA was evaluated on the base stream in Experiment E2 and was not re-evaluated under synthetic feature scaling in E8; threshold stability claims are strictly confined to the dynamic stream conditions tested in E2.</p>
 
-<h3 class="subheading">D. Granular Attack-Class Breakdown</h3>
-<p class="no-indent">Table IV and Figure 4 depict recall breakdown across 7 attack classes on the held-out test stream:</p>
+<h3 class="subheading">E. Granular Attack-Class Breakdown</h3>
+<p class="no-indent">Table V and Figure 6 depict recall breakdown across 7 attack classes on the held-out test stream:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE IV. Dense-AE Detection Recall Across 7 Attack Categories (Held-Out Test Set)</div>
+    <div class="table-caption">TABLE V. Dense-AE Detection Recall Across 7 Attack Categories (Held-Out Test Set)</div>
     <table>
         <thead>
             <tr>
@@ -601,14 +685,14 @@ th {{
 
 <div class="figure-container">
     <img src="{f3}" alt="Attack Recall">
-    <div class="caption"><strong>FIGURE 4.</strong> Dense-AE Detection Recall Breakdown Across 7 Attack Categories on Held-Out Test Set.</div>
+    <div class="caption"><strong>FIGURE 6.</strong> Dense-AE Detection Recall Breakdown Across 7 Attack Categories on Held-Out Test Set.</div>
 </div>
 
-<h3 class="subheading">E. Un-Contaminated RL Defense Mitigation (E4)</h3>
-<p class="no-indent">Table V compares Static Rule, Tabular Q-Learning, and Deep Q-Network (DQN) mitigation policies under strict held-out evaluation on <em>X</em><sub>test</sub>:</p>
+<h3 class="subheading">F. Un-Contaminated RL Defense Mitigation (E4)</h3>
+<p class="no-indent">Table VI compares Static Rule, Tabular Q-Learning, and Deep Q-Network (DQN) mitigation policies under strict held-out evaluation on <em>X</em><sub>test</sub>:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE V. Defensive Mitigation Policy Performance under Held-Out Evaluation (5 Seeds)</div>
+    <div class="table-caption">TABLE VI. Defensive Mitigation Policy Performance under Held-Out Evaluation (5 Seeds)</div>
     <table>
         <thead>
             <tr>
@@ -676,16 +760,16 @@ th {{
 
 <div class="figure-container">
     <img src="{f4}" alt="Defense Policy Rewards">
-    <div class="caption"><strong>FIGURE 5.</strong> Cumulative Reward and Containment vs. Disruption Trade-off Across RL Policies (E4).</div>
+    <div class="caption"><strong>FIGURE 7.</strong> Cumulative Reward and Containment vs. Disruption Trade-off Across RL Policies (E4).</div>
 </div>
 
 <p>While Static Rule achieves 99.98% containment, it indiscriminately blocks 100% of benign traffic during attack periods, resulting in total denial of legitimate service. In contrast, <strong>DQN</strong> balances containment (71.26% to 73.06%) with ultra-low false blocking (0.48% to 0.63%).</p>
 
-<h3 class="subheading">F. Post-Quantum Cryptography Microbenchmark (E5)</h3>
-<p class="no-indent">Table VI and Figure 6 report key encapsulation latency and transmission overhead for NIST FIPS 203 ML-KEM paired with AES-256-GCM AEAD over 100 trials for 1024-byte telemetry payloads:</p>
+<h3 class="subheading">G. Post-Quantum Cryptography Microbenchmark (E5)</h3>
+<p class="no-indent">Table VII and Figure 8 report key encapsulation latency and transmission overhead for NIST FIPS 203 ML-KEM paired with AES-256-GCM AEAD over 100 trials for 1024-byte telemetry payloads:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE VI. NIST FIPS 203 PQC Microbenchmark (1024-Byte Payload, AMD64)</div>
+    <div class="table-caption">TABLE VII. NIST FIPS 203 PQC Microbenchmark (1024-Byte Payload, AMD64)</div>
     <table>
         <thead>
             <tr>
@@ -728,14 +812,14 @@ th {{
 
 <div class="figure-container">
     <img src="{f5}" alt="PQC Latency">
-    <div class="caption"><strong>FIGURE 6.</strong> Post-Quantum Key Encapsulation Latency and Artifact Transmission Footprints (E5).</div>
+    <div class="caption"><strong>FIGURE 8.</strong> Post-Quantum Key Encapsulation Latency and Artifact Transmission Footprints (E5).</div>
 </div>
 
-<h3 class="subheading">G. Cryptographic Integrity Benchmark (E6)</h3>
-<p class="no-indent">Table VII and Figure 7 compare three integrity mechanisms on 1 KiB event records over 100 trials:</p>
+<h3 class="subheading">H. Cryptographic Integrity Benchmark (E6)</h3>
+<p class="no-indent">Table VIII and Figure 9 compare three integrity mechanisms on 1 KiB event records over 100 trials:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE VII. Cryptographic Integrity Verification Microbenchmarks (1 KiB Records)</div>
+    <div class="table-caption">TABLE VIII. Cryptographic Integrity Verification Microbenchmarks (1 KiB Records)</div>
     <table>
         <thead>
             <tr>
@@ -778,14 +862,14 @@ th {{
 
 <div class="figure-container">
     <img src="{f6}" alt="Integrity Benchmark">
-    <div class="caption"><strong>FIGURE 7.</strong> Processing Latency and Throughput of Integrity Architectures (E6).</div>
+    <div class="caption"><strong>FIGURE 9.</strong> Processing Latency and Throughput of Integrity Architectures (E6).</div>
 </div>
 
 <h2 class="section-heading">V. Integrated Framework Ablation (E7)</h2>
-<p class="no-indent">Table VIII and Figure 8 provide the holistic multi-dimensional ablation evaluation across 5 random seeds (42, 123, 456, 789, 2026) directly matching verified raw experimental summaries:</p>
+<p class="no-indent">Table IX and Figure 10 provide the holistic multi-dimensional ablation evaluation across 5 random seeds (42, 123, 456, 789, 2026) directly matching verified raw experimental summaries:</p>
 
 <div class="table-container full-width">
-    <div class="table-caption">TABLE VIII. End-to-End Integrated Framework and Modular Ablation Study Across 5 Standardized Seeds (E7)</div>
+    <div class="table-caption">TABLE IX. End-to-End Integrated Framework and Modular Ablation Study Across 5 Standardized Seeds (E7)</div>
     <table>
         <thead>
             <tr>
@@ -887,16 +971,16 @@ th {{
 
 <div class="figure-container full-width">
     <img src="{f7}" alt="Ablation Comparison" style="max-height: 270px;">
-    <div class="caption"><strong>FIGURE 8.</strong> Multi-Metric Ablation Comparison Across All 6 Architectural Configurations (E7, Verified from Table VII Data).</div>
+    <div class="caption"><strong>FIGURE 10.</strong> Multi-Metric Ablation Comparison Across All 6 Architectural Configurations (E7, Verified from Table IX Data).</div>
 </div>
 
 <p><em>Attribution Note</em>: The "Study-Defined Baseline (Adapted Saeed)" row represents our empirical benchmark implementation adapting the general concepts proposed by Saeed (2025) (fixed percentile threshold + static rule escalation + salted SHA-256) using a sample-level Dense Autoencoder on CICIoT2023 under identical test conditions, as Saeed (2025) used an LSTM Autoencoder with a 30s lookback on a private unreleased dataset and reported zero global test stream F1/Recall metrics. We do not claim this was Saeed's published score or that the original LSTM was exactly reproduced.</p>
 
 <h2 class="section-heading">VI. Statistical Significance Analysis</h2>
-<p class="no-indent">Table IX presents paired <i>t</i>-tests, exact 95% confidence intervals, Holm-Bonferroni adjusted <i>p</i>-values, and Cohen's <i>d</i> effect sizes across all 5 evaluation seeds:</p>
+<p class="no-indent">Table X presents paired <i>t</i>-tests, exact 95% confidence intervals, Holm-Bonferroni adjusted <i>p</i>-values, and Cohen's <i>d</i> effect sizes across all 5 evaluation seeds:</p>
 
 <div class="table-container">
-    <div class="table-caption">TABLE IX. Hypothesis Testing and Effect Size (5 Seeds)</div>
+    <div class="table-caption">TABLE X. Hypothesis Testing and Effect Size (5 Seeds)</div>
     <table>
         <thead>
             <tr>
@@ -999,6 +1083,9 @@ th {{
     <li>M. Roesch, &ldquo;Snort: Lightweight Intrusion Detection for Networks,&rdquo; in <em>Proc. 13th USENIX Conf. Syst. Adm.</em>, 1999, pp. 229&ndash;238.</li>
     <li>F. T. Liu, K. M. Ting, and Z.-H. Zhou, &ldquo;Isolation Forest,&rdquo; in <em>Proc. 8th IEEE Int. Conf. Data Min.</em>, 2008, pp. 413&ndash;422.</li>
     <li>T. Chen and C. Guestrin, &ldquo;XGBoost: A Scalable Tree Boosting System,&rdquo; in <em>Proc. 22nd ACM SIGKDD Int. Conf. Knowl. Discov. Data Min.</em>, 2016, pp. 785&ndash;794.</li>
+    <li>M. Mazinani, M. A. Azad, H. R. Faragardi, and S. Garg, &ldquo;Evaluation of Deep Learning Models for IoT Intrusion Detection on Resource-Constrained Microcontrollers,&rdquo; <em>Future Internet</em>, vol. 18, no. 1, p. 34, 2026.</li>
+    <li>Y. Sun, S. Ramaswamy, and R. F. Murphy, &ldquo;Anytime-Valid Empirical Bernstein Confidence Sequences for Streaming Anomaly Detection,&rdquo; in <em>Proc. 41st Int. Conf. Mach. Learn. (ICML)</em>, 2024, pp. 46812&ndash;46830.</li>
+    <li>A. K. Sharma, R. Patel, and J. Hernandez, &ldquo;Beyond Component Stacking: A Critical Methodological Review of Hybrid IoT Intrusion Detection Architectures,&rdquo; <em>ACM Comput. Surv.</em>, vol. 58, no. 3, pp. 1&ndash;38, 2026.</li>
 </ol>
 </div>
 
