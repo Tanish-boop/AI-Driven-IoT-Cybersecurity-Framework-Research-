@@ -1,0 +1,15 @@
+{
+  "total_raw_alerts": 74453,
+  "total_incidents": 91,
+  "alert_reduction_rate_pct": 99.87777524075592,
+  "incident_precision_pct": 100.0,
+  "multistage_campaigns_reconstructed": 90,
+  "priority_breakdown": {
+    "CRITICAL": 67,
+    "HIGH": 24,
+    "MEDIUM": 0,
+    "LOW": 0
+  },
+  "correlation_latency_ms": 989.1417000908405,
+  "latency_per_alert_us": 13.285451225482392
+}

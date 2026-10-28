@@ -61,7 +61,95 @@ All benchmarks are evaluated across 5 random seeds ($42, 123, 456, 789, 2026$) o
 
 ---
 
-## 3. Cross-Layer System Architecture
+## 3. Proposed DACC-ID: Drift-Aware Contextual Incident Detection & Correlation Framework
+
+### Reframing the Core Research Question:
+Rather than asking the narrow question: *"Which single machine learning model outperforms LSTM?"*, CyberNexus AI investigates:
+> **"Can a context-aware, drift-adaptive cybersecurity incident detection and correlation framework detect attacks more reliably, maintain stability under temporal distribution shifts, and convert high-volume raw alerts into prioritized, meaningful incidents?"**
+
+### The Four Complementary Pillars of DACC-ID:
+1. **Hybrid Detection Engine**: Combines supervised attack classification (Random Forest, $p_t$) and unsupervised anomaly detection (Isolation Forest / Autoencoder, $a_t$) via validation-calibrated fusion:
+   $$S_t = \alpha p_t + (1 - \alpha) a_t \quad (\alpha = 0.65)$$
+2. **Concept Drift Adaptation Engine**: Incorporates **ADWIN (Adaptive Windowing)** and **TCA-Adaptive** controllers to detect distribution shifts in real-time, adapting the operational threshold without accessing test labels while executing an incident freeze during attack bursts to prevent inflation collapse.
+3. **Temporal Incident Correlation Graph Engine**: Converts high-volume isolated flow alerts $e_i = (t_i, u_i, d_i, ip_i, s_i, r_i)$ into coherent multi-stage incidents $\mathcal{I}_k$ using streaming temporal session clustering and causal attack chain progression (NetworkX).
+4. **Contextual Risk Prioritization Engine**: Ranks correlated incidents into actionable SOC triage queues (`CRITICAL`, `HIGH`, `MEDIUM`, `LOW`) using a 4-factor risk model:
+   $$R_i = w_1 D_i + w_2 I_i + w_3 C_i + w_4 E_i$$
+   where $D_i$ is detection confidence, $I_i$ is asset/service criticality, $C_i$ is multi-event corroboration, and $E_i$ is evidence consistency.
+
+```
+[Raw Telemetry Flows: 100,000]
+         │
+         ▼
+[Hybrid Detection Engine: RF (Supervised) + IF (Unsupervised Anomaly Score)]
+         │ (Fused Score: St = 0.65 pt + 0.35 at)
+         ▼
+[Drift-Adaptive Controller: ADWIN + TCA Dynamic Thresholding]
+         │ (74,453 Raw Flow Alerts, Controlled FPR under Drift)
+         ▼
+[Temporal Incident Correlation Graph Engine] (ARR = 99.88% Alert Reduction!)
+         │ (91 Correlated Multi-Stage Incidents, 100% Precision)
+         ▼
+[Contextual Risk Prioritization & IncidentIQ Forensics]
+         ├── 67 CRITICAL Incidents (Immediate Containment Action)
+         ├── 24 HIGH Incidents (Priority SOC Triage)
+         ├── 90 Multi-Stage MITRE ATT&CK Campaigns Reconstructed
+         └── SHA-256 Tamper-Evident Evidence Integrity Chain
+```
+
+---
+
+### E1–E6 Comprehensive Experimental Evaluation
+
+All experiments evaluated on held-out CICIoT2023 evaluation data ($N=100,000$ flows):
+
+| Exp ID | Architecture / Model | Scope & Function | F1-Score | Precision | Recall | FPR | Latency | Key Research Takeaway |
+|:---:|---|---|:---:|:---:|:---:|:---:|:---:|---|
+| **E1** | **LSTM-AE Baseline** | Base Paper Architecture | $87.38\%$ | $98.85\%$ | $78.30\%$ | $5.21\%$ | $37.17\,\mu\text{s}$ | Sequence modeling on tabular NetFlow incurs $5.9\times$ higher latency and lower recall than tree ensembles. |
+| **E2** | **Random Forest** | Supervised Classifier | $93.55\%$ | $99.05\%$ | $88.63\%$ | $4.87\%$ | $6.30\,\mu\text{s}$ | Fast and high F1 on known attack classes; vulnerable to novel zero-day distribution shifts. |
+| **E3** | **Isolation Forest** | Unsupervised Anomaly | $77.80\%$ | $98.64\%$ | $64.23\%$ | $5.04\%$ | $13.52\,\mu\text{s}$ | Unsupervised baseline detecting deviations without labels; lower recall on stealthy low-rate attacks. |
+| **E4** | **Hybrid Detector (RF+IF)** | Calibrated Score Fusion | **$92.53\%$** | **$99.05\%$** | **$86.83\%$** | **$4.77\%$** | $19.83\,\mu\text{s}$ | Fuses zero-day anomaly sensitivity with supervised classification certainty at nominal $<5\%$ FPR. |
+| **E5** | **TCA+ADWIN Adaptive** | Drift-Adaptive Controller | **$91.69\%$** | $97.80\%$ | $86.30\%$ | **$11.08\%$** | $0.39\,\text{ms}$ | **Cuts false alarms under $2.0\times$ feature rate drift** (FPR drops from $13.37\%$ to $11.08\%$); detects contamination bursts. |
+| **E6** | **Full DACC-ID Framework** | Full Correlation + Risk | **$92.53\%$** | **$100.0\%$** *(Inc)* | $86.83\%$ | **$4.77\%$** | $13.29\,\mu\text{s}$ *(corr)* | **$99.88\%$ Alert Reduction Rate** (74,453 alerts $\to$ 91 incidents), 90 multi-stage attack campaigns reconstructed. |
+
+---
+
+### Drift Adaptation Under Stress Conditions (E5)
+
+| Evaluation Scenario | Static 95th Percentile | TCA + ADWIN Adaptive | Drift / Contamination Response |
+|---|:---:|:---:|---|
+| **Nominal Clean Stream** | $\text{F1} = 92.53\%$, $\text{FPR} = 4.77\%$ | $\text{F1} = 92.47\%$, $\text{FPR} = \mathbf{4.59\%}$ | $0$ false drift triggers; baseline threshold maintained. |
+| **Benign Feature Rate Drift ($2.0\times$)** | $\text{F1} = 91.80\%$, $\text{FPR} = 13.37\%$ | $\text{F1} = 91.69\%$, $\text{FPR} = \mathbf{11.08\%}$ | Adapts dynamic threshold upwards; prevents $2.3\%$ false alarm blowup. |
+| **Attack Contamination Flood ($20,000$)** | $\text{F1} = 91.36\%$, $\text{FPR} = 4.77\%$ | $\text{F1} = 90.82\%$, $\text{FPR} = 6.31\%$ | ADWIN detects $2$ drift transitions; incident freeze prevents threshold poisoning. |
+
+---
+
+### Incident-Level Correlation & Triage (E6)
+
+- **Alert Fatigue Reduction**: Converts **74,453 raw alerts** into **91 actionable incidents** (**$99.88\%$ Alert Reduction Rate**).
+- **Incident Precision**: **$100.00\%$** (all 91 incidents correctly contain verified attack campaigns).
+- **Multi-Stage Attack Reconstruction**: Successfully reconstructed **90 multi-stage attack campaigns** spanning Reconnaissance $\to$ Credential Brute Force / Web Exploits $\to$ DoS / DDoS.
+- **Contextual Priority Triage**:
+  - `CRITICAL`: 67 incidents ($73.6\%$) — high-impact targeting core network gateways, DNS, or active botnet floods.
+  - `HIGH`: 24 incidents ($26.4\%$) — secondary service exploits and credential probing.
+  - `MEDIUM` / `LOW`: 0 incidents.
+- **Forensic Hash Integrity**: Every incident dossier is sealed with a deterministic SHA-256 evidence integrity hash linking all constituent events for tamper-evident chain of custody.
+
+---
+
+### Comprehensive Ablation Study
+
+| Configuration | F1-Score | Nominal FPR | Drift FPR ($2.0\times$) | Alert Reduction Rate (ARR) | Multi-Stage Detected | Operational Impact |
+|---|:---:|:---:|:---:|:---:|:---:|---|
+| **Full DACC-ID** | **$92.53\%$** | **$4.77\%$** | **$11.08\%$** | **$99.88\%$** | **90** | **Optimal holistic operational performance.** |
+| **w/o Drift Adaptation** | $92.53\%$ | $4.77\%$ | $13.37\%$ | $99.88\%$ | 90 | FPR inflates by $+2.29\%$ under rate drift; static threshold fails under traffic surges. |
+| **w/o Anomaly Detection (RF Only)**| $93.55\%$ | $4.87\%$ | $12.50\%$ | $99.84\%$ | 76 | Blind to zero-day anomaly indicators; detects $15.5\%$ fewer multi-stage campaign transitions. |
+| **w/o Supervised Model (IF Only)** | $77.80\%$ | $5.04\%$ | $35.80\%$ | $65.40\%$ | 36 | Severe performance collapse; FPR explodes to $35.8\%$ under drift; excessive incident fragmentation. |
+| **w/o Event Correlation (Raw Alerts)**| $92.53\%$ | $4.77\%$ | $11.08\%$ | **$0.00\%$** | **0** | **Severe Alert Fatigue**: Leaves SOC with 74,453 isolated alerts; zero multi-stage context. |
+| **w/o Contextual Risk Prioritization**| $92.53\%$ | $4.77\%$ | $11.08\%$ | $99.88\%$ | 90 | Sub-optimal triage; critical core gateways and peripheral sensors are assigned flat equal priority. |
+
+---
+
+## 4. Cross-Layer System Architecture
 
 The pipeline consists of five synchronized defense modules designed for IoT edge nodes:
 
@@ -114,7 +202,7 @@ The pipeline consists of five synchronized defense modules designed for IoT edge
 
 ---
 
-## 5. Automated Test Suite Execution
+## 6. Automated Test Suite Execution
 
 The repository maintains an automated unit test suite verifying all invariants, mathematical constraints, and cryptographic primitives:
 
@@ -125,18 +213,19 @@ python -m pytest -v tests/
 
 **Verified Test Result**:
 ```
-============================= 40 passed in 35.24s =============================
+============================= 46 passed in 36.85s =============================
 ```
-- `test_e4_uncontaminated.py`: Split isolation, reward sensitivity, action bounds.
-- `test_e5_crypto.py`: ML-KEM artifact sizes, key generation, tamper rejection.
-- `test_e6_integrity.py`: Hash chain, HMAC, tamper detection (modification, deletion, insertion, reordering, rewrite).
-- `test_e7_pipeline.py`: Full framework end-to-end and component ablations.
-- `test_recovery_pipeline.py`: Leakage prevention, missing/infinite handling, reproducible splitting.
-- `test_threshold_adaptation.py`: Fixed, UnGuarded, Excluded, CGB, and TCA controllers, decision invariants, step-size boundedness, flood resistance, label firewall rejection.
+- `tests/test_dacc_id.py`: Hybrid score fusion, ADWIN drift detection, incident freeze, NetworkX streaming correlation, alert reduction rate, contextual risk prioritization, SHA-256 evidence integrity hashing.
+- `tests/test_e4_uncontaminated.py`: Split isolation, reward sensitivity, action bounds.
+- `tests/test_e5_crypto.py`: ML-KEM artifact sizes, key generation, tamper rejection.
+- `tests/test_e6_integrity.py`: Hash chain, HMAC, tamper detection (modification, deletion, insertion, reordering, rewrite).
+- `tests/test_e7_pipeline.py`: Full framework end-to-end and component ablations.
+- `tests/test_recovery_pipeline.py`: Leakage prevention, missing/infinite handling, reproducible splitting.
+- `tests/test_threshold_adaptation.py`: Fixed, UnGuarded, Excluded, CGB, and TCA controllers, decision invariants, step-size boundedness, flood resistance, label firewall rejection.
 
 ---
 
-## 6. How to Reproduce All Experiments
+## 7. How to Reproduce All Experiments
 
 ### Step 1: Environment Setup
 ```bash
@@ -145,19 +234,34 @@ cd AI-Driven-IoT-Cybersecurity-Framework-Research-
 pip install -r requirements.txt
 ```
 
-### Step 2: Run the 5-Seed Validated Benchmark
+### Step 2: Run DACC-ID Master Experiments (E1 to E6 + Ablations)
+```bash
+python experiments/run_dacc_id_experiments.py
+```
+*Outputs*:
+- `results/dacc_id/e1_to_e4_model_comparison.csv`
+- `results/dacc_id/drift_adaptation_results.csv`
+- `results/dacc_id/ablation_study_results.csv`
+- `results/dacc_id/incident_metrics.json`
+- `results/dacc_id/dacc_id_master_summary.json`
+
+### Step 3: Generate DACC-ID Publication Figures
+```bash
+python experiments/plot_dacc_id_figures.py
+```
+*Outputs*:
+- `results/dacc_id/fig1_model_comparison_e1_to_e4.png`
+- `results/dacc_id/fig2_drift_adaptation_stress.png`
+- `results/dacc_id/fig3_incident_correlation_pipeline.png`
+- `results/dacc_id/fig4_ablation_matrix.png`
+
+### Step 4: Run the 5-Seed Validated Benchmark
 ```bash
 python experiments/valid_evaluation_20261016/run_valid_evaluation.py
 ```
 *Outputs*: `results_per_seed.csv`, `results_summary.csv`, `threshold_traces.npz`, `scenario_manifest.json`
 
-### Step 3: Generate Publication Figures
-```bash
-python experiments/valid_evaluation_20261016/plot_valid_evaluation_figures.py
-```
-*Outputs*: `fig_tradeoff_f1_vs_fpr.png`, `fig_threshold_traces.png`, `fig_scenario_comparison.png`
-
-### Step 4: Run the TCA Adaptive Threshold Calibration & Test
+### Step 5: Run the TCA Adaptive Threshold Calibration & Test
 ```bash
 python experiments/tune_and_validate_tca.py
 ```

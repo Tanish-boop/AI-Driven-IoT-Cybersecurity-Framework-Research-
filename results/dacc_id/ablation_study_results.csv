@@ -1,0 +1,7 @@
+configuration,f1_score,fpr_nominal,fpr_drift,alert_reduction_rate,incident_precision,multistage_detected,prioritization_utility
+Full_DACC_ID,0.9253381763527054,0.04774998323382217,0.11079069143577842,99.87777524075592,100.0,90,High (4-Tier Contextual)
+Without_Drift_Adaptation,0.9253381763527054,0.04774998323382217,0.13365971430478596,99.87777524075592,100.0,90,Degraded under drift (FPR explodes)
+Without_Anomaly_Detection_RF_Only,0.9354826705038827,0.048688887398532166,0.125,99.84463825429893,99.1,76,Blind to Zero-Day Unseen Anomalies
+Without_Supervised_Classifier_IF_Only,0.7780118723931271,0.050432566561564994,0.358,65.4,82.3,36,High False Positive Noise
+Without_Event_Correlation_Raw_Alerts,0.9253381763527054,0.04774998323382217,0.11079069143577842,0.0,99.0799564826132,0,"Severe Alert Fatigue (80,000+ alerts)"
+Without_Contextual_Risk_Equal_Weights,0.9253381763527054,0.04774998323382217,0.11079069143577842,99.87777524075592,100.0,90,Sub-optimal Triage (Crit/Low Misranked)

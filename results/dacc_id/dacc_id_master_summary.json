@@ -1,0 +1,778 @@
+{
+  "timestamp": "2026-10-28 01:55:32",
+  "N_test": 100000,
+  "models": {
+    "E1_LSTM_AE": {
+      "tp": 66622,
+      "fp": 777,
+      "tn": 14134,
+      "fn": 18467,
+      "precision": 0.9884716390450897,
+      "recall": 0.7829684213000505,
+      "f1_score": 0.8737999055663397,
+      "fpr": 0.052109181141404254,
+      "fnr": 0.21703157869992395,
+      "model": "E1_LSTM_AE_Baseline",
+      "latency_us": 37.17
+    },
+    "E2_RandomForest": {
+      "tp": 75413,
+      "fp": 726,
+      "tn": 14185,
+      "fn": 9676,
+      "precision": 0.9904648077857603,
+      "recall": 0.8862837734607294,
+      "f1_score": 0.9354826705038827,
+      "fpr": 0.048688887398532166,
+      "fnr": 0.11371622653925728,
+      "model": "E2_RandomForest_Supervised",
+      "latency_us": 6.3
+    },
+    "E3_IsolationForest": {
+      "tp": 54653,
+      "fp": 752,
+      "tn": 14159,
+      "fn": 30436,
+      "precision": 0.98642721776013,
+      "recall": 0.6423039405798634,
+      "f1_score": 0.7780118723931271,
+      "fpr": 0.050432566561564994,
+      "fnr": 0.3576960594200945,
+      "model": "E3_IsolationForest_Unsupervised",
+      "latency_us": 13.52
+    },
+    "E4_Hybrid_RF_IF": {
+      "tp": 73879,
+      "fp": 712,
+      "tn": 14199,
+      "fn": 11210,
+      "precision": 0.9904546124867611,
+      "recall": 0.8682555912045036,
+      "f1_score": 0.9253381763527054,
+      "fpr": 0.04774998323382217,
+      "fnr": 0.131744408795481,
+      "model": "E4_Hybrid_RF_Plus_IF",
+      "latency_us": 19.83
+    }
+  },
+  "incident_evaluation": {
+    "total_raw_alerts": 74453,
+    "total_incidents": 91,
+    "alert_reduction_rate_pct": 99.87777524075592,
+    "incident_precision_pct": 100.0,
+    "multistage_campaigns_reconstructed": 90,
+    "priority_breakdown": {
+      "CRITICAL": 67,
+      "HIGH": 24,
+      "MEDIUM": 0,
+      "LOW": 0
+    },
+    "correlation_latency_ms": 989.1417000908405,
+    "latency_per_alert_us": 13.285451225482392
+  },
+  "sample_dossiers": [
+    {
+      "incident_id": "INC-0030",
+      "priority": "CRITICAL",
+      "risk_score": 0.9424,
+      "primary_attack_class": "DDoS",
+      "is_multistage": true,
+      "event_count": 4140,
+      "duration_seconds": 299.95,
+      "start_time": 300.94,
+      "end_time": 600.88,
+      "affected_devices": [
+        "IoT-Camera-01"
+      ],
+      "affected_services": [
+        "ARP",
+        "DHCP",
+        "DNS",
+        "ICMP",
+        "IRC",
+        "SSH",
+        "TCP",
+        "UDP"
+      ],
+      "mitre_tactics": [
+        "TA0001: Initial Access",
+        "TA0005: Defense Evasion / TA0006: Credential Access",
+        "TA0006: Credential Access",
+        "TA0011: Command and Control / TA0040: Impact",
+        "TA0040: Impact",
+        "TA0043: Reconnaissance"
+      ],
+      "mitre_techniques": [
+        "T1046: Network Service Discovery",
+        "T1059: Command and Scripting Interpreter",
+        "T1110.001: Password Guessing",
+        "T1110: Brute Force",
+        "T1190: Exploit Public-Facing Application",
+        "T1498.001: Direct Network Flood",
+        "T1498: Network Denial of Service",
+        "T1499: Endpoint Denial of Service",
+        "T1557.002: ARP Spoofing",
+        "T1557: Adversary-in-the-Middle",
+        "T1584.005: Botnet",
+        "T1595: Active Scanning"
+      ],
+      "evidence_sha256": "597b623e13cd213ec5a672cd1b4844a690668193dc602d387e2e211cb9fc29e3",
+      "recommended_action": "Apply immediate traffic rate limiting and ACL ingress filtering on target services: ARP, DHCP, DNS, ICMP, IRC, SSH, TCP, UDP.",
+      "timeline_summary": [
+        {
+          "timestamp": 300.938,
+          "event_id": "EVT-031786",
+          "device_id": "IoT-Camera-01",
+          "service": "UDP",
+          "attack_class": "Recon",
+          "subclass": "Recon-OSScan",
+          "score": 0.7921
+        },
+        {
+          "timestamp": 300.989,
+          "event_id": "EVT-031792",
+          "device_id": "IoT-Camera-01",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-SYN_Flood",
+          "score": 0.9686
+        },
+        {
+          "timestamp": 301.027,
+          "event_id": "EVT-031797",
+          "device_id": "IoT-Camera-01",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-SYN_Flood",
+          "score": 0.9999
+        },
+        {
+          "timestamp": 301.042,
+          "event_id": "EVT-031799",
+          "device_id": "IoT-Camera-01",
+          "service": "ICMP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-ICMP_Flood",
+          "score": 0.969
+        },
+        {
+          "timestamp": 301.116,
+          "event_id": "EVT-031808",
+          "device_id": "IoT-Camera-01",
+          "service": "UDP",
+          "attack_class": "Spoofing",
+          "subclass": "DNS_Spoofing",
+          "score": 0.9965
+        },
+        {
+          "timestamp": 301.201,
+          "event_id": "EVT-031816",
+          "device_id": "IoT-Camera-01",
+          "service": "ICMP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-ICMP_Fragmentation",
+          "score": 1.0
+        },
+        {
+          "timestamp": 301.292,
+          "event_id": "EVT-031827",
+          "device_id": "IoT-Camera-01",
+          "service": "TCP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-SynonymousIP_Flood",
+          "score": 0.974
+        },
+        {
+          "timestamp": 301.336,
+          "event_id": "EVT-031833",
+          "device_id": "IoT-Camera-01",
+          "service": "ICMP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-ICMP_Fragmentation",
+          "score": 1.0
+        },
+        {
+          "timestamp": 301.458,
+          "event_id": "EVT-031849",
+          "device_id": "IoT-Camera-01",
+          "service": "TCP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-greeth_flood",
+          "score": 0.9746
+        },
+        {
+          "timestamp": 301.477,
+          "event_id": "EVT-031851",
+          "device_id": "IoT-Camera-01",
+          "service": "TCP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-greeth_flood",
+          "score": 0.9702
+        }
+      ]
+    },
+    {
+      "incident_id": "INC-0059",
+      "priority": "CRITICAL",
+      "risk_score": 0.9423,
+      "primary_attack_class": "DDoS",
+      "is_multistage": true,
+      "event_count": 4114,
+      "duration_seconds": 299.87,
+      "start_time": 602.34,
+      "end_time": 902.21,
+      "affected_devices": [
+        "IoT-Thermostat-02"
+      ],
+      "affected_services": [
+        "ARP",
+        "DHCP",
+        "DNS",
+        "HTTP",
+        "HTTPS",
+        "ICMP",
+        "IRC",
+        "SSH",
+        "TCP",
+        "UDP"
+      ],
+      "mitre_tactics": [
+        "TA0001: Initial Access",
+        "TA0005: Defense Evasion / TA0006: Credential Access",
+        "TA0006: Credential Access",
+        "TA0011: Command and Control / TA0040: Impact",
+        "TA0040: Impact",
+        "TA0043: Reconnaissance"
+      ],
+      "mitre_techniques": [
+        "T1046: Network Service Discovery",
+        "T1059: Command and Scripting Interpreter",
+        "T1110.001: Password Guessing",
+        "T1110: Brute Force",
+        "T1190: Exploit Public-Facing Application",
+        "T1498.001: Direct Network Flood",
+        "T1498: Network Denial of Service",
+        "T1499: Endpoint Denial of Service",
+        "T1557.002: ARP Spoofing",
+        "T1557: Adversary-in-the-Middle",
+        "T1584.005: Botnet",
+        "T1595: Active Scanning"
+      ],
+      "evidence_sha256": "cde766c684eb9f547275433c1e3cdac70cd4fc4c9d456944e7f766776b55c67a",
+      "recommended_action": "Apply immediate traffic rate limiting and ACL ingress filtering on target services: ARP, DHCP, DNS, HTTP, HTTPS, ICMP, IRC, SSH, TCP, UDP.",
+      "timeline_summary": [
+        {
+          "timestamp": 602.341,
+          "event_id": "EVT-063500",
+          "device_id": "IoT-Thermostat-02",
+          "service": "TCP",
+          "attack_class": "Recon",
+          "subclass": "Recon-HostDiscovery",
+          "score": 0.9377
+        },
+        {
+          "timestamp": 602.36,
+          "event_id": "EVT-063502",
+          "device_id": "IoT-Thermostat-02",
+          "service": "TCP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-ACK_Fragmentation",
+          "score": 0.9347
+        },
+        {
+          "timestamp": 602.651,
+          "event_id": "EVT-063525",
+          "device_id": "IoT-Thermostat-02",
+          "service": "TCP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-HTTP_Flood",
+          "score": 0.9228
+        },
+        {
+          "timestamp": 602.734,
+          "event_id": "EVT-063533",
+          "device_id": "IoT-Thermostat-02",
+          "service": "TCP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-ACK_Fragmentation",
+          "score": 0.8394
+        },
+        {
+          "timestamp": 602.743,
+          "event_id": "EVT-063534",
+          "device_id": "IoT-Thermostat-02",
+          "service": "UDP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-UDP_Fragmentation",
+          "score": 1.0
+        },
+        {
+          "timestamp": 602.824,
+          "event_id": "EVT-063544",
+          "device_id": "IoT-Thermostat-02",
+          "service": "TCP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-greip_flood",
+          "score": 0.9584
+        },
+        {
+          "timestamp": 602.875,
+          "event_id": "EVT-063550",
+          "device_id": "IoT-Thermostat-02",
+          "service": "ARP",
+          "attack_class": "Web-based",
+          "subclass": "SqlInjection",
+          "score": 0.8159
+        },
+        {
+          "timestamp": 602.942,
+          "event_id": "EVT-063559",
+          "device_id": "IoT-Thermostat-02",
+          "service": "UDP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-UDP_Fragmentation",
+          "score": 1.0
+        },
+        {
+          "timestamp": 602.983,
+          "event_id": "EVT-063564",
+          "device_id": "IoT-Thermostat-02",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-HTTP_Flood",
+          "score": 0.9886
+        },
+        {
+          "timestamp": 602.997,
+          "event_id": "EVT-063566",
+          "device_id": "IoT-Thermostat-02",
+          "service": "UDP",
+          "attack_class": "DoS",
+          "subclass": "DoS-UDP_Flood",
+          "score": 0.9886
+        }
+      ]
+    },
+    {
+      "incident_id": "INC-0032",
+      "priority": "CRITICAL",
+      "risk_score": 0.9413,
+      "primary_attack_class": "DDoS",
+      "is_multistage": true,
+      "event_count": 4011,
+      "duration_seconds": 299.96,
+      "start_time": 301.73,
+      "end_time": 601.69,
+      "affected_devices": [
+        "IoT-SmartPlug-03"
+      ],
+      "affected_services": [
+        "ARP",
+        "DHCP",
+        "DNS",
+        "ICMP",
+        "IRC",
+        "SSH",
+        "TCP",
+        "UDP"
+      ],
+      "mitre_tactics": [
+        "TA0001: Initial Access",
+        "TA0005: Defense Evasion / TA0006: Credential Access",
+        "TA0006: Credential Access",
+        "TA0011: Command and Control / TA0040: Impact",
+        "TA0040: Impact",
+        "TA0043: Reconnaissance"
+      ],
+      "mitre_techniques": [
+        "T1046: Network Service Discovery",
+        "T1059: Command and Scripting Interpreter",
+        "T1110.001: Password Guessing",
+        "T1110: Brute Force",
+        "T1190: Exploit Public-Facing Application",
+        "T1498.001: Direct Network Flood",
+        "T1498: Network Denial of Service",
+        "T1499: Endpoint Denial of Service",
+        "T1557.002: ARP Spoofing",
+        "T1557: Adversary-in-the-Middle",
+        "T1584.005: Botnet",
+        "T1595: Active Scanning"
+      ],
+      "evidence_sha256": "372651d98180206390cae63a11b83a88a5950d3c25bdc98c36fb0dd94a500c2e",
+      "recommended_action": "Apply immediate traffic rate limiting and ACL ingress filtering on target services: ARP, DHCP, DNS, ICMP, IRC, SSH, TCP, UDP.",
+      "timeline_summary": [
+        {
+          "timestamp": 301.727,
+          "event_id": "EVT-031879",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "ICMP",
+          "attack_class": "Recon",
+          "subclass": "Recon-HostDiscovery",
+          "score": 0.4819
+        },
+        {
+          "timestamp": 301.731,
+          "event_id": "EVT-031880",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "TCP",
+          "attack_class": "Recon",
+          "subclass": "Recon-HostDiscovery",
+          "score": 0.9988
+        },
+        {
+          "timestamp": 301.741,
+          "event_id": "EVT-031881",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-SYN_Flood",
+          "score": 1.0
+        },
+        {
+          "timestamp": 301.788,
+          "event_id": "EVT-031886",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "TCP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-TCP_Flood",
+          "score": 0.8494
+        },
+        {
+          "timestamp": 301.83,
+          "event_id": "EVT-031891",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "TCP",
+          "attack_class": "Recon",
+          "subclass": "Recon-HostDiscovery",
+          "score": 0.7861
+        },
+        {
+          "timestamp": 302.006,
+          "event_id": "EVT-031907",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "TCP",
+          "attack_class": "Recon",
+          "subclass": "Recon-PortScan",
+          "score": 0.999
+        },
+        {
+          "timestamp": 302.061,
+          "event_id": "EVT-031912",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "UDP",
+          "attack_class": "Recon",
+          "subclass": "VulnerabilityScan",
+          "score": 0.4537
+        },
+        {
+          "timestamp": 302.089,
+          "event_id": "EVT-031915",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "TCP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-greip_flood",
+          "score": 0.9602
+        },
+        {
+          "timestamp": 302.155,
+          "event_id": "EVT-031922",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "UDP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-udpplain",
+          "score": 1.0
+        },
+        {
+          "timestamp": 302.257,
+          "event_id": "EVT-031933",
+          "device_id": "IoT-SmartPlug-03",
+          "service": "ICMP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-ICMP_Fragmentation",
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "incident_id": "INC-0029",
+      "priority": "CRITICAL",
+      "risk_score": 0.9367,
+      "primary_attack_class": "DDoS",
+      "is_multistage": true,
+      "event_count": 4165,
+      "duration_seconds": 299.96,
+      "start_time": 300.08,
+      "end_time": 600.03,
+      "affected_devices": [
+        "IoT-Gateway-Core"
+      ],
+      "affected_services": [
+        "ARP",
+        "DHCP",
+        "HTTP",
+        "HTTPS",
+        "ICMP",
+        "IRC",
+        "TCP",
+        "UDP"
+      ],
+      "mitre_tactics": [
+        "TA0001: Initial Access",
+        "TA0005: Defense Evasion / TA0006: Credential Access",
+        "TA0006: Credential Access",
+        "TA0011: Command and Control / TA0040: Impact",
+        "TA0040: Impact",
+        "TA0043: Reconnaissance"
+      ],
+      "mitre_techniques": [
+        "T1046: Network Service Discovery",
+        "T1059: Command and Scripting Interpreter",
+        "T1110.001: Password Guessing",
+        "T1110: Brute Force",
+        "T1190: Exploit Public-Facing Application",
+        "T1498.001: Direct Network Flood",
+        "T1498: Network Denial of Service",
+        "T1499: Endpoint Denial of Service",
+        "T1557.002: ARP Spoofing",
+        "T1557: Adversary-in-the-Middle",
+        "T1584.005: Botnet",
+        "T1595: Active Scanning"
+      ],
+      "evidence_sha256": "e9db39572fc7e4586ac0272bc84f64b1bf096a65e7adc8cae9c5dbf0c0281e2d",
+      "recommended_action": "Apply immediate traffic rate limiting and ACL ingress filtering on target services: ARP, DHCP, HTTP, HTTPS, ICMP, IRC, TCP, UDP.",
+      "timeline_summary": [
+        {
+          "timestamp": 300.076,
+          "event_id": "EVT-031700",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "Recon",
+          "subclass": "Recon-PortScan",
+          "score": 0.9353
+        },
+        {
+          "timestamp": 300.134,
+          "event_id": "EVT-031707",
+          "device_id": "IoT-Gateway-Core",
+          "service": "UDP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-UDP_Fragmentation",
+          "score": 0.9997
+        },
+        {
+          "timestamp": 300.254,
+          "event_id": "EVT-031721",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-SYN_Flood",
+          "score": 0.8653
+        },
+        {
+          "timestamp": 300.402,
+          "event_id": "EVT-031733",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-SYN_Flood",
+          "score": 0.9999
+        },
+        {
+          "timestamp": 300.411,
+          "event_id": "EVT-031734",
+          "device_id": "IoT-Gateway-Core",
+          "service": "UDP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-udpplain",
+          "score": 1.0
+        },
+        {
+          "timestamp": 300.421,
+          "event_id": "EVT-031735",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-greip_flood",
+          "score": 0.9982
+        },
+        {
+          "timestamp": 300.524,
+          "event_id": "EVT-031745",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-greip_flood",
+          "score": 0.9609
+        },
+        {
+          "timestamp": 300.585,
+          "event_id": "EVT-031755",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-SlowLoris",
+          "score": 0.7356
+        },
+        {
+          "timestamp": 300.596,
+          "event_id": "EVT-031758",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-TCP_Flood",
+          "score": 0.8647
+        },
+        {
+          "timestamp": 300.772,
+          "event_id": "EVT-031769",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-SlowLoris",
+          "score": 0.9754
+        }
+      ]
+    },
+    {
+      "incident_id": "INC-0056",
+      "priority": "CRITICAL",
+      "risk_score": 0.9364,
+      "primary_attack_class": "DDoS",
+      "is_multistage": true,
+      "event_count": 4135,
+      "duration_seconds": 299.96,
+      "start_time": 600.36,
+      "end_time": 900.31,
+      "affected_devices": [
+        "IoT-Gateway-Core"
+      ],
+      "affected_services": [
+        "ARP",
+        "DHCP",
+        "HTTP",
+        "HTTPS",
+        "ICMP",
+        "IRC",
+        "SSH",
+        "TCP",
+        "UDP"
+      ],
+      "mitre_tactics": [
+        "TA0001: Initial Access",
+        "TA0005: Defense Evasion / TA0006: Credential Access",
+        "TA0006: Credential Access",
+        "TA0011: Command and Control / TA0040: Impact",
+        "TA0040: Impact",
+        "TA0043: Reconnaissance"
+      ],
+      "mitre_techniques": [
+        "T1046: Network Service Discovery",
+        "T1059: Command and Scripting Interpreter",
+        "T1110.001: Password Guessing",
+        "T1110: Brute Force",
+        "T1190: Exploit Public-Facing Application",
+        "T1498.001: Direct Network Flood",
+        "T1498: Network Denial of Service",
+        "T1499: Endpoint Denial of Service",
+        "T1557.002: ARP Spoofing",
+        "T1557: Adversary-in-the-Middle",
+        "T1584.005: Botnet",
+        "T1595: Active Scanning"
+      ],
+      "evidence_sha256": "018a21eb35d3b190cabae476b150e29f70ddc5c5f978ead45ca47075a6a6651f",
+      "recommended_action": "Apply immediate traffic rate limiting and ACL ingress filtering on target services: ARP, DHCP, HTTP, HTTPS, ICMP, IRC, SSH, TCP, UDP.",
+      "timeline_summary": [
+        {
+          "timestamp": 600.357,
+          "event_id": "EVT-063275",
+          "device_id": "IoT-Gateway-Core",
+          "service": "ARP",
+          "attack_class": "Recon",
+          "subclass": "Recon-HostDiscovery",
+          "score": 0.4417
+        },
+        {
+          "timestamp": 600.44,
+          "event_id": "EVT-063285",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-greip_flood",
+          "score": 0.9982
+        },
+        {
+          "timestamp": 600.48,
+          "event_id": "EVT-063289",
+          "device_id": "IoT-Gateway-Core",
+          "service": "UDP",
+          "attack_class": "DDoS",
+          "subclass": "DDoS-UDP_Flood",
+          "score": 0.995
+        },
+        {
+          "timestamp": 600.557,
+          "event_id": "EVT-063295",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "Mirai",
+          "subclass": "Mirai-greip_flood",
+          "score": 0.9618
+        },
+        {
+          "timestamp": 600.776,
+          "event_id": "EVT-063323",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-TCP_Flood",
+          "score": 0.8647
+        },
+        {
+          "timestamp": 600.794,
+          "event_id": "EVT-063325",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "Recon",
+          "subclass": "Recon-PortScan",
+          "score": 0.9888
+        },
+        {
+          "timestamp": 600.817,
+          "event_id": "EVT-063328",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "Recon",
+          "subclass": "Recon-OSScan",
+          "score": 0.8906
+        },
+        {
+          "timestamp": 600.85,
+          "event_id": "EVT-063333",
+          "device_id": "IoT-Gateway-Core",
+          "service": "UDP",
+          "attack_class": "Spoofing",
+          "subclass": "DNS_Spoofing",
+          "score": 0.6889
+        },
+        {
+          "timestamp": 601.179,
+          "event_id": "EVT-063369",
+          "device_id": "IoT-Gateway-Core",
+          "service": "UDP",
+          "attack_class": "Spoofing",
+          "subclass": "MITM-ArpSpoofing",
+          "score": 0.9834
+        },
+        {
+          "timestamp": 601.189,
+          "event_id": "EVT-063370",
+          "device_id": "IoT-Gateway-Core",
+          "service": "TCP",
+          "attack_class": "DoS",
+          "subclass": "DoS-SYN_Flood",
+          "score": 0.9245
+        }
+      ]
+    }
+  ]
+}
