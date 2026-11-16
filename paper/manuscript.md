@@ -1,7 +1,7 @@
 # DACC-ID: A Drift-Aware, Contextual Cybersecurity Incident Detection and Correlation Framework for Resource-Constrained IoT Networks
 
 **Authors**: Tanish Thakare, Atharv Thorat, Bhoomi Shinde, and Mukesh More  
-**Affiliation**: Department of Computer Science and Engineering  
+**Affiliation**: International Institute Of Information Technology, Pune  
 **Target Venue**: IEEE Access (Implementation & Empirical Benchmark Track)  
 **Artifact Repository**: https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-  
 

@@ -277,16 +277,11 @@ th {{
 </head>
 <body>
 
-<div class="ieee-banner">
-    <span>IEEE ACCESS &bull; RESEARCH PAPER</span>
-    <span>PEER REVIEW SUBMISSION</span>
-</div>
-
 <div class="title-block">
     <h1 class="paper-title">An AI-Driven Adaptive Cybersecurity Framework for IoT: Anomaly Detection, Dynamic Thresholding, Un-Contaminated Reinforcement Learning Defense, Post-Quantum Cryptography, and Tamper-Evident Audit Logging</h1>
     <div class="authors">Tanish Thakare, Atharv Thorat, Bhoomi Shinde, and Mukesh More</div>
     <div class="affiliations">
-        Department of Computer Science and Engineering
+        International Institute Of Information Technology, Pune
     </div>
 </div>
 
