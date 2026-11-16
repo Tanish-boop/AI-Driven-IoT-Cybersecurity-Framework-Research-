@@ -17,17 +17,17 @@
 
 \title{DACC-ID: A Drift-Aware, Contextual Cybersecurity Incident Detection and Correlation Framework for Resource-Constrained IoT Networks}
 
-\author{\uppercase{Tanish Thakare}\authorrefmark{1}}
+\author{\uppercase{Tanish Thakare}\authorrefmark{1}, \uppercase{Atharv Thorat}\authorrefmark{1}, \uppercase{Bhoomi Shinde}\authorrefmark{1}, \uppercase{and Mukesh More}\authorrefmark{1}}
 
-\address[1]{Department of Computer Science and Engineering, Independent Research (e-mail: tanish.thakare2005@gmail.com)}
+\address[1]{Department of Computer Science and Engineering}
 
 \tfootnote{The complete open-source implementation, pre-registered data-splitting manifests, trained model checkpoints, and evaluation scripts are available at \url{https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-}.}
 
 \markboth
-{T. Thakare: DACC-ID: A Drift-Aware, Contextual Cybersecurity Framework for IoT}
-{T. Thakare: DACC-ID: A Drift-Aware, Contextual Cybersecurity Framework for IoT}
+{T. Thakare \textit{et al.}: DACC-ID: A Drift-Aware, Contextual Cybersecurity Framework for IoT}
+{T. Thakare \textit{et al.}: DACC-ID: A Drift-Aware, Contextual Cybersecurity Framework for IoT}
 
-\corresp{Corresponding author: Tanish Thakare (e-mail: tanish.thakare2005@gmail.com).}
+\corresp{}
 
 \begin{abstract}
 Machine-learning-based intrusion detection systems (IDS) in Internet of Things (IoT) edge environments face three critical operational bottlenecks: (1) static decision boundaries that explode in false alarms under non-stationary traffic rate drift; (2) catastrophic threshold collapse or poisoning under sustained attack bursts; and (3) severe alert fatigue caused by tens of thousands of isolated, unranked flow-level alerts. In recent literature, Saeed (IEEE Access, 2025) proposed integrating LSTM anomaly detection, Q-learning mitigation, and lattice-based cryptography, but relied on fixed percentile thresholding, reported no global classification metrics across a full test stream, and explicitly cited dynamic thresholding and alert handling as vital open challenges. 
@@ -298,7 +298,7 @@ Mazinani et al. (2026) \cite{mazinani2026} & MLP / TCN (STM32) & Static & None &
 This study presented DACC-ID, a drift-aware, contextual cybersecurity incident detection and correlation framework resolving the key limitations identified in Saeed \cite{saeed2025}. Through rigorous 5-seed evaluation on 100,000 held-out flows of CICIoT2023, DACC-ID demonstrates that: (1) Sample-level Dense Autoencoders match LSTM accuracy while slashing latency by $72.7\%$ and parameters by $91.7\%$; (2) Truncation-bias corrected thresholding eliminates EWMA collapse and slashes drift false alarms by up to $77\%$; (3) Temporal graph correlation achieves a $99.88\%$ alert reduction rate, transforming tens of thousands of isolated alerts into prioritized, MITRE ATT\&CK-mapped incidents; and (4) Standardized NIST FIPS 203 ML-KEM-768 and tamper-evident hash chaining provide sub-millisecond post-quantum confidentiality and forensic integrity.
 
 \section*{Acknowledgment}
-The author acknowledges the open-source cybersecurity research community and the Canadian Institute for Cybersecurity for providing the public CICIoT2023 dataset.
+The authors acknowledge the open-source cybersecurity research community and the Canadian Institute for Cybersecurity for providing the public CICIoT2023 dataset.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}

@@ -278,20 +278,15 @@ th {{
 <body>
 
 <div class="ieee-banner">
-    <span>IEEE ACCESS MANUSCRIPT TEMPLATE &bull; RESEARCH PREPRINT</span>
-    <span>DATE OF DRAFT: OCTOBER 12, 2026 &bull; PREPARED FOR JOURNAL PEER REVIEW</span>
+    <span>IEEE ACCESS &bull; RESEARCH PAPER</span>
+    <span>PEER REVIEW SUBMISSION</span>
 </div>
 
 <div class="title-block">
     <h1 class="paper-title">An AI-Driven Adaptive Cybersecurity Framework for IoT: Anomaly Detection, Dynamic Thresholding, Un-Contaminated Reinforcement Learning Defense, Post-Quantum Cryptography, and Tamper-Evident Audit Logging</h1>
-    <div class="authors">Tanish Thakare</div>
+    <div class="authors">Tanish Thakare, Atharv Thorat, Bhoomi Shinde, and Mukesh More</div>
     <div class="affiliations">
-        Department of Computer Science and Engineering, Independent Research<br>
-        Corresponding Author Email: tanish.thakare2005@gmail.com
-    </div>
-    <div class="pub-meta">
-        Manuscript Working Draft &bull; October 12, 2026.<br>
-        Verified Open-Access Code Repository: <a href="https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-">https://github.com/Tanish-boop/AI-Driven-IoT-Cybersecurity-Framework-Research-</a>
+        Department of Computer Science and Engineering
     </div>
 </div>
 
