@@ -324,23 +324,23 @@ th {{
 
 <p><strong>4. Forensic Audit Logging Boundaries:</strong> Edge gateways require verifiable audit trails to guarantee incident provenance. However, the local storage trust boundary against privileged host adversaries must be clearly formulated rather than asserting unqualified blockchain immutability.</p>
 
-<h2 class="section-heading">II. System Architecture</h2>
-<p class="no-indent">The proposed architecture integrates five synchronized defensive stages within a lightweight edge pipeline, illustrated in Figure 1:</p>
+<h2 class="section-heading">II. System Architecture & Operational Pipeline</h2>
+<p class="no-indent">The proposed DACC-ID architecture integrates five synchronized defensive stages within a lightweight edge pipeline, illustrated in Figure 1:</p>
 
 <div class="figure-container">
-    <img src="{f0}" alt="System Architecture">
-    <div class="caption"><strong>FIGURE 1.</strong> Five-Stage Integrated IoT Edge Cybersecurity Framework Architecture.</div>
+    <img src="{f0}" alt="DACC-ID System Architecture">
+    <div class="caption"><strong>FIGURE 1.</strong> DACC-ID System Architecture and Operational Pipeline, illustrating the five integrated stages: (1) feature extraction and normalization; (2) hybrid detection with calibrated score fusion; (3) ADWIN drift monitoring and TCA-adaptive dynamic thresholding; (4) temporal incident correlation graph and contextual risk prioritization; and (5) automated DQN defense with NIST FIPS 203 ML-KEM-768 encryption and tamper-evident hash-chain audit logging.</div>
 </div>
 
-<p><strong>Stage 1 (Feature Normalization):</strong> 39 numerical flow features are extracted from incoming packets. Non-numeric metadata identifiers (<code>src_ip</code>, <code>dst_ip</code>, <code>src_port</code>, <code>dst_port</code>, <code>Timestamp</code>, <code>flow_id</code>) are purged to eliminate shortcut memorization. Features are normalized via StandardScaler fitted exclusively on <em>X</em><sub>train</sub>.</p>
+<p><strong>Stage 1 (Feature Normalization & Firewall):</strong> 39 numerical flow features are extracted from incoming packets. Non-numeric metadata identifiers (<code>src_ip</code>, <code>dst_ip</code>, <code>src_port</code>, <code>dst_port</code>, <code>Timestamp</code>, <code>flow_id</code>) are purged to eliminate shortcut memorization. Features are normalized via StandardScaler fitted exclusively on <em>X</em><sub>train</sub>, protected by an enforced Test-Label Firewall.</p>
 
-<p><strong>Stage 2 (Reconstruction Inference & Excluded EWMA):</strong> The normalized vector is passed through a 4-layer symmetrical Dense Autoencoder (39 &rarr; 24 &rarr; 12 &rarr; 24 &rarr; 39). Reconstruction error <i>E<sub>t</sub></i> is compared against an adaptive threshold &tau;<sub><i>t</i></sub>. When <i>E<sub>t</sub></i> &le; &tau;<sub><i>t</i></sub>, the flow is classified as benign and background statistics are updated. When <i>E<sub>t</sub></i> &gt; &tau;<sub><i>t</i></sub>, the flow is flagged as an anomaly and the sample is strictly <strong>excluded</strong> from statistical updating, preventing threshold inflation.</p>
+<p><strong>Stage 2 (Deep Anomaly Detection & Hybrid Fusion):</strong> The normalized vector is evaluated by a sample-level Dense Autoencoder (39 &rarr; 24 &rarr; 12 &rarr; 24 &rarr; 39) with MSE reconstruction error <i>E<sub>t</sub></i>. To balance zero-day anomaly sensitivity with known attack precision, a hybrid fusion engine combines supervised Random Forest probability <i>p<sub>t</sub></i> with normalized anomaly score <i>a<sub>t</sub></i>: <i>S<sub>t</sub></i> = 0.65<i>p<sub>t</sub></i> + 0.35<i>a<sub>t</sub></i>.</p>
 
-<p><strong>Stage 3 (Un-Contaminated RL Response):</strong> Flagged alerts are routed to a Deep Q-Network (DQN) mitigation agent maintaining an internal state (flow rate, anomaly score, consecutive alert streak). The policy selects actions: <em>Pass</em>, <em>Rate-Limit</em>, or <em>Isolate/Block</em>, balancing attack containment against false disruption.</p>
+<p><strong>Stage 3 (ADWIN Drift Monitoring & TCA Dynamic Thresholding):</strong> Streaming scores are monitored for distribution shifts via the ADWIN algorithm using Hoeffding bounds. The decision threshold &tau;<sub><i>t</i></sub> is dynamically adapted using the Truncation-Bias Corrected Adaptive (TCA) controller: &tau;<sub><i>t</i></sub> = &kappa;(&mu;<sub><i>t</i></sub> + <i>k</i>&sigma;<sub><i>t</i></sub>), where &kappa; is calibrated on clean validation tails. Winsorized updates and streak-based incident freezing prevent threshold poisoning during sustained attack floods.</p>
 
-<p><strong>Stage 4 (Post-Quantum Transport Encryption):</strong> High-priority incident telemetry is encapsulated using NIST FIPS 203 ML-KEM-768, deriving a 256-bit symmetric session key via HKDF-SHA256, and encrypted via AES-256-GCM AEAD.</p>
+<p><strong>Stage 4 (Temporal Incident Correlation & Contextual Risk Prioritization):</strong> To eliminate frontline alert fatigue, individual flow alerts are clustered via a streaming NetworkX correlation graph into multi-stage incidents based on temporal proximity (<i>W<sub>t</sub></i> = 45s), entity affinity, and causal MITRE ATT&CK progression. Correlated incidents are ranked into four operational priority tiers (<code>CRITICAL</code>, <code>HIGH</code>, <code>MEDIUM</code>, <code>LOW</code>) via a 4-factor risk model <i>R<sub>k</sub></i>, achieving a <strong>99.88% Alert Reduction Rate</strong>.</p>
 
-<p><strong>Stage 5 (Tamper-Evident Hash-Chain Logging):</strong> Forensic incident records are appended to an immutable cryptographic hash chain where block <i>k</i> encapsulates the SHA-256 digest of block <i>k</i>&minus;1.</p>
+<p><strong>Stage 5 (Un-Contaminated RL Defense & Standardized Post-Quantum Cryptography):</strong> Prioritized incidents trigger automated mitigation via an un-contaminated Deep Q-Network (DQN) selecting actions (<em>Pass</em>, <em>Rate-Limit</em>, or <em>Quarantine/Block</em>), achieving 71.26% containment with 0.63% false block rate. High-priority incident telemetry is protected using NIST FIPS 203 ML-KEM-768 (0.429 ms setup) paired with AES-256-GCM AEAD, and forensic audit logs are committed to an append-only cryptographic hash chain (19,379 records/s).</p>
 
 <h2 class="section-heading">III. Dataset & Strict Split Protocol</h2>
 <p class="no-indent">Experiments are conducted on <strong>CICIoT2023</strong> (Neto et al., <em>Sensors</em>, 2023). To guarantee absolute data isolation, the benchmark implements four strict partitions:</p>
@@ -1123,7 +1123,7 @@ th {{
         f"--print-to-pdf={output_pdf}",
         html_out
     ]
-    res = subprocess.run(cmd, capture_output=True, text=True, timeout=30)
+    res = subprocess.run(cmd, capture_output=True, text=True, timeout=120)
     if res.returncode == 0 and os.path.exists(output_pdf):
         size_kb = os.path.getsize(output_pdf) / 1024
         print(f"SUCCESS: Generated {output_pdf} ({size_kb:.2f} KB)")
