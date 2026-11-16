@@ -40,7 +40,7 @@ To address these foundational gaps, this paper presents **DACC-ID** (Drift-Aware
 ## 2. Materials and Methods
 
 ![DACC-ID System Architecture](figures/figure0_system_architecture.png)
-*FIGURE 1. DACC-ID System Architecture and Operational Pipeline, illustrating the six integrated stages: (1) multi-protocol edge telemetry ingestion and feature normalization with strict label firewall; (2) AI-driven calibrated detection engine fusing supervised Random Forest and unsupervised Dense-AE; (3) ADWIN concept drift monitoring and TCA-adaptive dynamic thresholding with streak-based freeze; (4) streaming temporal graph incident correlation and contextual MITRE ATT&CK risk prioritization (achieving 99.88% alert fatigue reduction); (5) Deep Q-Network automated mitigation engine with multi-tier response actions; and (6) post-quantum transit security (NIST FIPS 203 ML-KEM-768 and AES-256-GCM) with tamper-evident SHA-256 hash-chain audit logging.*
+*FIGURE 1. Methodology illustrated: The proposed DACC-ID end-to-end operational lifecycle across AI-driven anomaly detection, drift-aware adaptive thresholding, temporal graph incident correlation, deep reinforcement learning mitigation, and standardized post-quantum cryptography with tamper-evident audit logging.*
 
 ### 2.1 Pre-Registered Data Partitioning & Test-Label Firewall
 All experiments are conducted on the public CICIoT2023 dataset, consisting of 33 attack subclasses and pure benign telemetry. We extract 39 statistical flow features, discarding metadata identifiers (`src_ip`, `dst_ip`, `flow_id`, `Timestamp`) to prevent shortcut identity memorization.
