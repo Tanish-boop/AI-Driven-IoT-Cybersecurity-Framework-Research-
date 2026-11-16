@@ -35,14 +35,11 @@ def generate_expanded_html(repo_root):
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>An AI-Driven Adaptive Cybersecurity Framework for IoT</title>
+<title></title>
 <style>
 @page {{
     size: letter;
     margin: 18mm 14mm 18mm 14mm;
-    @bottom-right {{
-        content: counter(page);
-    }}
 }}
 
 body {{
@@ -1299,6 +1296,7 @@ def main():
             edge_exe,
             "--headless",
             "--disable-gpu",
+            "--no-pdf-header-footer",
             "--run-all-compositor-stages-before-draw",
             f"--print-to-pdf={output_pdf}",
             html_out

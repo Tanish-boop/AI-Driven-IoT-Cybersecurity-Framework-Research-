@@ -35,14 +35,11 @@ def generate_expanded_html(repo_root):
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>An AI-Driven Adaptive Cybersecurity Framework for IoT</title>
+<title></title>
 <style>
 @page {{
     size: letter;
     margin: 18mm 14mm 18mm 14mm;
-    @bottom-right {{
-        content: counter(page);
-    }}
 }}
 
 body {{
@@ -400,7 +397,7 @@ th {{
 <p><em>3. Un-Contaminated Reinforcement Learning Mitigation:</em> Correlated incidents trigger the Deep Q-Network (DQN) defense agent. The defense environment is modeled as a Markov Decision Process (MDP) with state vector <b>s</b><sub><i>t</i></sub> = (<i>S<sub>t</sub></i>, &tau;<sub><i>t</i></sub>, &Delta;<i>S<sub>t</sub></i>, rate<sub><i>t</i></sub>) &isin; &Ropf;<sup>4</sup>. The action space comprises four discrete operational responses:</p>
 
 <div class="equation">
-    &Aopf; = {{ \text{ALLOW} (0), \text{ALERT} (1), \text{RATE\_LIMIT} (2), \text{BLOCK} (3) }}
+    &Aopf; = {{ ALLOW (0), ALERT (1), RATE_LIMIT (2), BLOCK (3) }}
     <span class="eq-num">(8)</span>
 </div>
 
@@ -419,7 +416,7 @@ th {{
 <p><em>1. Standardized NIST FIPS 203 ML-KEM-768:</em> To protect edge-to-cloud telemetry against "Harvest Now, Decrypt Later" quantum adversaries, DACC-ID implements standardized Module-Lattice Key Encapsulation (ML-KEM-768). ML-KEM operates over polynomial ring <i>R<sub>q</sub></i> = &Zopf;<sub><i>q</i></sub>[<i>X</i>] / (<i>X</i><sup>256</sup> + 1) with modulus <i>q</i> = 3329 and lattice dimension <i>k</i> = 3. Key generation computes public key <i>pk</i> (1,184 bytes) and private key <i>sk</i> (2,400 bytes). Encapsulation generates ciphertext <i>c</i> (1,088 bytes) and 256-bit shared secret <i>K</i>:</p>
 
 <div class="equation">
-    (<i>pk</i>, <i>sk</i>) &larr; \text{KeyGen}(), &emsp; (<i>c</i>, <i>K</i>) &larr; \text{Encaps}(<i>pk</i>)
+    (<i>pk</i>, <i>sk</i>) &larr; KeyGen(), &emsp; (<i>c</i>, <i>K</i>) &larr; Encaps(<i>pk</i>)
     <span class="eq-num">(10)</span>
 </div>
 
@@ -428,7 +425,7 @@ th {{
 <p><em>2. Tamper-Evident SHA-256 Hash Chain:</em> Local forensic logging is secured via an append-only cryptographic hash chain. Each log record rec<sub><i>i</i></sub> incorporates sequence number seq<sub><i>i</i></sub>, timestamp, mitigation action, and preceding digest <i>h</i><sub><i>i</i>&minus;1</sub>:</p>
 
 <div class="equation">
-    <i>h<sub>i</sub></i> = \text{SHA-256}( <i>h</i><sub><i>i</i>&minus;1</sub> || \text{rec}_i || \text{seq}_i )
+    <i>h<sub>i</sub></i> = SHA-256( <i>h</i><sub><i>i</i>&minus;1</sub> || rec<sub><i>i</i></sub> || seq<sub><i>i</i></sub> )
     <span class="eq-num">(11)</span>
 </div>
 
@@ -1299,6 +1296,7 @@ def main():
             edge_exe,
             "--headless",
             "--disable-gpu",
+            "--no-pdf-header-footer",
             "--run-all-compositor-stages-before-draw",
             f"--print-to-pdf={output_pdf}",
             html_out
