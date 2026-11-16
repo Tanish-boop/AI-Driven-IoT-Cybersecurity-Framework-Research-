@@ -1,180 +1,272 @@
 """
-Generate Enhanced, Humanized System Architecture Diagram
-Modeled after Saeed (IEEE Access 2025, Figure 1) and elevated with DACC-ID components.
+Upgraded Publication-Tier System Architecture Diagram for DACC-ID
+Modeled after Saeed (IEEE Access 2025, Figure 1) and elevated to comprehensive 6-stage architecture.
 """
 import os
+import tempfile
+os.environ['MPLCONFIGDIR'] = tempfile.gettempdir()
+
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-def draw_card(ax, x, y, w, h, title, subtitle, items, color, bg_color='#fbfcfd'):
-    # Outer container with rounded corners and drop shadow
+def draw_module_card(ax, x, y, w, h, badge, title, subtitle, items, header_color, bg_color='#ffffff'):
+    # Subtle drop shadow
     shadow = patches.FancyBboxPatch((x + 0.08, y - 0.08), w, h,
-                                   boxstyle="round,pad=0.1,rounding_size=0.18",
-                                   linewidth=0, facecolor='#d0d7de', alpha=0.5)
+                                   boxstyle="round,pad=0.1,rounding_size=0.16",
+                                   linewidth=0, facecolor='#cbd5e1', alpha=0.55)
     ax.add_patch(shadow)
 
+    # Main card container
     card = patches.FancyBboxPatch((x, y), w, h,
-                                  boxstyle="round,pad=0.1,rounding_size=0.18",
-                                  linewidth=1.8, edgecolor=color, facecolor=bg_color)
+                                  boxstyle="round,pad=0.1,rounding_size=0.16",
+                                  linewidth=1.6, edgecolor=header_color, facecolor=bg_color)
     ax.add_patch(card)
 
     # Header banner
     hdr_h = 1.05
     hdr = patches.FancyBboxPatch((x, y + h - hdr_h), w, hdr_h,
                                  boxstyle="round,pad=0.08,rounding_size=0.12",
-                                 linewidth=1.2, edgecolor=color, facecolor=color)
+                                 linewidth=1.2, edgecolor=header_color, facecolor=header_color)
     ax.add_patch(hdr)
 
-    # Title & subtitle
-    ax.text(x + w / 2, y + h - 0.40, title, ha='center', va='center',
-            color='white', fontweight='bold', fontsize=10.5)
-    ax.text(x + w / 2, y + h - 0.78, subtitle, ha='center', va='center',
-            color='#f1f5f9', style='italic', fontsize=8.2)
+    # Stage Badge & Title
+    ax.text(x + 0.25, y + h - 0.35, badge, ha='left', va='center',
+            color='#fef08a', fontweight='bold', fontsize=7.8)
+    ax.text(x + 0.25, y + h - 0.65, title, ha='left', va='center',
+            color='white', fontweight='bold', fontsize=9.8)
+    ax.text(x + 0.25, y + h - 0.88, subtitle, ha='left', va='center',
+            color='#e2e8f0', style='italic', fontsize=7.6)
 
     # Card body items
-    text_y = y + h - hdr_h - 0.40
-    for label, formula in items:
+    text_y = y + h - hdr_h - 0.38
+    for label, formula, note in items:
         # Step label
-        ax.text(x + 0.25, text_y, label, ha='left', va='center',
-                color='#1e293b', fontweight='bold', fontsize=8.5)
-        text_y -= 0.35
-        # Formula / description box
-        box_w = w - 0.50
-        f_box = patches.FancyBboxPatch((x + 0.25, text_y - 0.25), box_w, 0.50,
+        ax.text(x + 0.22, text_y, label, ha='left', va='center',
+                color='#0f172a', fontweight='bold', fontsize=8.2)
+        text_y -= 0.32
+
+        # Formula / equation box
+        box_w = w - 0.44
+        f_box = patches.FancyBboxPatch((x + 0.22, text_y - 0.22), box_w, 0.46,
                                        boxstyle="round,pad=0.04,rounding_size=0.06",
-                                       linewidth=0.8, edgecolor='#cbd5e1', facecolor='#f1f5f9')
+                                       linewidth=0.75, edgecolor='#cbd5e1', facecolor='#f8fafc')
         ax.add_patch(f_box)
-        ax.text(x + 0.35, text_y, formula, ha='left', va='center',
-                color='#0f172a', fontfamily='monospace', fontsize=7.6)
-        text_y -= 0.55
+        ax.text(x + 0.32, text_y, formula, ha='left', va='center',
+                color='#1e293b', fontfamily='monospace', fontsize=7.4, fontweight='semibold')
+        text_y -= 0.32
+
+        # Metric / Note
+        ax.text(x + 0.25, text_y, note, ha='left', va='center',
+                color='#475569', fontsize=7.2, style='italic')
+        text_y -= 0.42
 
 def main():
     os.makedirs('paper/figures', exist_ok=True)
     output_path = 'paper/figures/figure0_system_architecture.png'
 
-    fig, ax = plt.subplots(figsize=(15, 10.5), dpi=300)
-    ax.set_xlim(0, 15)
-    ax.set_ylim(0, 10.5)
+    fig, ax = plt.subplots(figsize=(16.8, 11.4), dpi=300)
+    ax.set_xlim(0, 16.8)
+    ax.set_ylim(0, 11.4)
     ax.axis('off')
 
-    # Color Scheme
-    c_blue = '#1d4ed8'    # Anomaly Detection
-    c_amber = '#d97706'   # Threshold & Drift
-    c_teal = '#0f766e'    # Incident Correlation
-    c_green = '#15803d'   # RL Response
-    c_purple = '#6b21a8'  # NIST ML-KEM PQC
-    c_red = '#b91c1c'     # Tamper-Evident Forensics
+    # Palette
+    c_navy = '#1e3a8a'    # Stage 1: Ingestion
+    c_blue = '#1d4ed8'    # Stage 2: Detection
+    c_amber = '#b45309'   # Stage 3: Drift & Threshold
+    c_teal = '#0f766e'    # Stage 4: Incident Correlation
+    c_green = '#15803d'   # Stage 5: RL Mitigation
+    c_purple = '#6b21a8'  # Stage 6: NIST PQC & Audit
 
-    # Canvas Title & Subtitle
-    ax.text(7.5, 10.15, "DACC-ID: System Architecture & Operational Pipeline",
-            ha='center', va='center', fontsize=15, fontweight='bold', color='#0f172a')
-    ax.text(7.5, 9.80, "Integrated Edge Architecture for Drift-Aware Anomaly Detection, Incident Correlation, Mitigation, and Post-Quantum Security",
-            ha='center', va='center', fontsize=9.5, style='italic', color='#475569')
+    # Title Banner
+    ax.text(8.4, 11.0, "DACC-ID: End-to-End System Architecture & Threat Lifecycle Pipeline",
+            ha='center', va='center', fontsize=15.5, fontweight='bold', color='#0f172a')
+    ax.text(8.4, 10.65, "An Integrated Edge Architecture for Drift-Aware Anomaly Detection, Streaming Graph Incident Correlation, Reinforcement Learning Mitigation, and Post-Quantum Security",
+            ha='center', va='center', fontsize=8.8, style='italic', color='#334155')
 
-    # START Pill
-    start_box = patches.FancyBboxPatch((0.5, 8.65), 1.6, 0.65, boxstyle="round,pad=0.08,rounding_size=0.3",
-                                       linewidth=1.5, edgecolor='#0284c7', facecolor='#0284c7')
-    ax.add_patch(start_box)
-    ax.text(1.3, 8.97, "START\nIoT Telemetry", ha='center', va='center', color='white', fontweight='bold', fontsize=8.2)
+    # Card geometry
+    cw = 4.8
+    ch = 4.25
+    y_top = 5.95
+    y_bot = 0.95
+    x1 = 0.6
+    x2 = 6.0
+    x3 = 11.4
 
     # -------------------------------------------------------------
-    # CARD 1: TOP LEFT - AI Anomaly Detection & Hybrid Fusion
+    # STAGE 1: IOT EDGE TELEMETRY & PREPROCESSING (Top Left)
     # -------------------------------------------------------------
-    card1_items = [
-        ("1. Feature Preprocessing (39 NetFlow Features)", "xt in R^39, scaled strictly via benign X_train"),
-        ("2. Dense Autoencoder Reconstruction (L=1)", "x_hat = g(f(xt)),  Et = (1/D) * sum(xt - x_hat)^2"),
-        ("3. Calibrated Supervised / Anomaly Fusion", "St = 0.65 * p_sup(xt) + 0.35 * a_unsup(xt)")
+    s1_items = [
+        ("1. Multi-Protocol Edge Ingestion", "Protocols: MQTT, CoAP, DNS, HTTP, TCP, UDP", "Ingests streaming network telemetry across distributed IoT sensor nodes"),
+        ("2. Feature Extraction & Normalization", "x_t in R^39,  x_t_norm = (x_t - mu_train) / sigma_train", "39 statistical flow features normalized strictly on pure benign D_train"),
+        ("3. Strict Test-Label Firewall", "Y_test completely isolated; zero test contamination", "Guarantees unbiased online evaluation without label leakage")
     ]
-    draw_card(ax, 2.5, 5.8, 5.6, 3.7,
-              "AI-Driven Anomaly Detection Engine",
-              "Supervised & Unsupervised Calibrated Score Fusion",
-              card1_items, c_blue)
+    draw_module_card(ax, x1, y_top, cw, ch,
+                     "STAGE 1: EDGE TELEMETRY",
+                     "IoT Ingestion & Feature Engineering",
+                     "Distributed Sensor Streams & Unbiased Sanitization",
+                     s1_items, c_navy)
 
     # -------------------------------------------------------------
-    # CARD 2: TOP RIGHT - Drift Monitoring & Dynamic Thresholding
+    # STAGE 2: AI-DRIVEN CALIBRATED DETECTION ENGINE (Top Center)
     # -------------------------------------------------------------
-    card2_items = [
-        ("1. Streaming ADWIN Concept Drift Monitor", "|mu_W0 - mu_W1| > eps_cut = sqrt(1/(2m)*ln(4n/delta))"),
-        ("2. Truncation-Bias Calibration Factor", "kappa = tau_calib / (mu_trunc + k * sigma_trunc)"),
-        ("3. TCA-Adaptive Operational Decision Rule", "tau_t = kappa * (mu_t + k*sigma_t),  yt = 1[St >= tau_t]")
+    s2_items = [
+        ("1. Supervised Random Forest (Known Signatures)", "p_t = Pr(y=1 | x_t; theta_RF),  Trees=100, Depth=12", "Detects recognized attack patterns with high confidence"),
+        ("2. Dense Autoencoder Reconstruction (Zero-Day)", "a_t = ||x_t - g(f(x_t))||_2^2,  L=1, 10,775 params", "Reconstruction error flags novel zero-day anomalies in 1.35 us"),
+        ("3. Calibrated Probabilistic Score Fusion", "S_t = 0.65 * p_t + 0.35 * a_t,  S_t in [0, 1]", "F1 = 92.53% +/- 0.08%, FPR = 4.77% across 100,000 test flows")
     ]
-    draw_card(ax, 8.8, 5.8, 5.6, 3.7,
-              "Drift Monitoring & TCA-Adaptive Controller",
-              "Guarded Dynamic Boundary with Streak-Based Incident Freeze",
-              card2_items, c_amber)
+    draw_module_card(ax, x2, y_top, cw, ch,
+                     "STAGE 2: HYBRID DETECTION",
+                     "AI-Driven Calibrated Detection Engine",
+                     "Supervised & Unsupervised Dual-Stream Score Fusion",
+                     s2_items, c_blue)
 
     # -------------------------------------------------------------
-    # CARD 3: MIDDLE CONNECTOR - Temporal Graph Alert Correlation
+    # STAGE 3: DRIFT MONITORING & TCA-ADAPTIVE CONTROLLER (Top Right)
     # -------------------------------------------------------------
-    card3_items = [
-        ("1. Streaming Session Clustering & Affinity", "Link alerts: |ti - tj| <= 45s, same Device/IP/Port"),
-        ("2. MITRE ATT&CK Causal Campaign Chains", "Recon (TA0043) -> BruteForce (TA0006) -> DoS (TA0040)"),
-        ("3. 4-Factor Contextual Incident Risk Scoring", "R_k = 0.35*D + 0.25*I + 0.25*C + 0.15*E  [ARR = 99.88%]")
+    s3_items = [
+        ("1. Streaming ADWIN Drift Detection", "|mu_W0 - mu_W1| > eps_cut = sqrt(1/(2m) * ln(4n/delta))", "Dynamically detects rate shifts and concept drift without ground truth"),
+        ("2. Truncation-Bias Calibration Factor", "kappa = tau_calib / (mu_trunc + k * sigma_trunc)", "Mathematically counteracts false alarm inflation under non-stationary traffic"),
+        ("3. TCA-Adaptive Decision Rule & Streak Freeze", "tau_t = kappa * (mu_t + k*sigma_t),  y_t = 1[S_t >= tau_t]", "Streak-based freeze (s_burst >= 50) halts drift adaptation during attacks")
     ]
-    draw_card(ax, 8.8, 1.2, 5.6, 3.7,
-              "Temporal Graph Incident Correlation Engine",
-              "Alert Fatigue Reduction & Contextual Risk Prioritization",
-              card3_items, c_teal)
+    draw_module_card(ax, x3, y_top, cw, ch,
+                     "STAGE 3: DYNAMIC THRESHOLD",
+                     "Drift Monitoring & TCA-Adaptive Controller",
+                     "Non-Stationary Adaptation with Contamination Guard",
+                     s3_items, c_amber)
 
     # -------------------------------------------------------------
-    # CARD 4: BOTTOM LEFT - Automated Mitigation & PQC Cryptography
+    # STAGE 4: STREAMING TEMPORAL INCIDENT CORRELATION (Bottom Right)
     # -------------------------------------------------------------
-    card4_items = [
-        ("1. Un-Contaminated RL Defense Policy (DQN)", "Actions: {ALLOW, ALERT, RATE_LIMIT, BLOCK} (71.3% cont.)"),
-        ("2. NIST FIPS 203 ML-KEM-768 Transit Security", "(pk, sk) <- KeyGen, (c, K) <- Encaps(pk)  [0.429 ms setup]"),
-        ("3. Tamper-Evident Hash-Chain Audit Logging", "h_i = SHA-256(h_{i-1} || rec_i || seq_i)  [19,379 rec/s]")
+    s4_items = [
+        ("1. Sliding-Window Session Graph Clustering", "Edge(i, j) if |t_i - t_j| <= 45.0s and EntityAffinity", "Groups fragmented flow alerts into coherent multi-step attack campaigns"),
+        ("2. MITRE ATT&CK Kill-Chain Progression", "Recon (TA0043) -> BruteForce (TA0006) -> DoS (TA0040)", "Identifies 90 multi-stage attack campaigns across 74,453 alerts"),
+        ("3. 4-Factor Contextual Risk Prioritization", "R_k = 0.35*D_k + 0.25*I_k + 0.25*C_k + 0.15*E_k", "99.88% Alert Reduction Rate (74,453 alerts -> 91 incidents: 67 Crit, 24 High)")
     ]
-    draw_card(ax, 2.5, 1.2, 5.6, 3.7,
-              "Automated Response & Cryptographic Layer",
-              "Deep Reinforcement Learning & Post-Quantum Security",
-              card4_items, c_purple)
-
-    # STOP Pill
-    stop_box = patches.FancyBboxPatch((0.5, 2.5), 1.6, 0.65, boxstyle="round,pad=0.08,rounding_size=0.3",
-                                      linewidth=1.5, edgecolor='#15803d', facecolor='#15803d')
-    ax.add_patch(stop_box)
-    ax.text(1.3, 2.82, "STOP\nSecured Node", ha='center', va='center', color='white', fontweight='bold', fontsize=8.2)
+    draw_module_card(ax, x3, y_bot, cw, ch,
+                     "STAGE 4: GRAPH CORRELATION",
+                     "Streaming Temporal Incident Correlation",
+                     "Alert Fatigue Elimination & MITRE ATT&CK Synthesis",
+                     s4_items, c_teal)
 
     # -------------------------------------------------------------
-    # CONNECTING ARROWS & DATAFLOW PIPELINE
+    # STAGE 5: REINFORCEMENT LEARNING MITIGATION (Bottom Center)
     # -------------------------------------------------------------
-    arrow_style = dict(arrowstyle="-|>", color="#334155", lw=2.2, mutation_scale=18)
-    
-    # Start -> Card 1
-    ax.annotate("", xy=(2.45, 7.8), xytext=(2.15, 8.9),
-                arrowprops=dict(arrowstyle="-|>", color="#0284c7", lw=2.4, mutation_scale=18,
-                                connectionstyle="arc3,rad=-0.15"))
-    ax.text(1.9, 8.4, "Raw Flow\nTelemetry", fontsize=7.5, fontweight='bold', color='#0369a1')
+    s5_items = [
+        ("1. Un-Contaminated Deep Q-Network (DQN)", "Q*(s, a) = r + gamma * max_a' Q(s', a'; theta^-)", "Trained strictly on clean state transitions to eliminate feedback poisoning"),
+        ("2. Multi-Tier Autonomous Mitigation Actions", "Actions: {ALLOW (0), ALERT (1), RATE_LIMIT (2), BLOCK (3)}", "Dynamic action space balances security containment against service disruption"),
+        ("3. Empirical Containment & Low Disruption", "Containment = 71.26% +/- 0.85%,  False Block Rate = 0.63%", "Outperforms tabular Q-learning while eliminating 99.37% false drops")
+    ]
+    draw_module_card(ax, x2, y_bot, cw, ch,
+                     "STAGE 5: RL DEFENSE RESPONSE",
+                     "Deep Q-Network Mitigation Engine",
+                     "Autonomous Dynamic Containment & False-Block Minimization",
+                     s5_items, c_green)
 
-    # Card 1 -> Card 2 (Top Left to Top Right)
-    ax.annotate("", xy=(8.75, 7.65), xytext=(8.15, 7.65), arrowprops=arrow_style)
-    ax.text(8.45, 7.95, "Fused Score\nSt in [0, 1]", ha='center', fontsize=7.8, fontweight='bold', color='#1e293b')
+    # -------------------------------------------------------------
+    # STAGE 6: POST-QUANTUM CRYPTOGRAPHY & FORENSICS (Bottom Left)
+    # -------------------------------------------------------------
+    s6_items = [
+        ("1. NIST FIPS 203 ML-KEM-768 Transit Security", "(pk, sk) <- KeyGen(),  (c, K) <- Encaps(pk)", "Quantum-resistant key encapsulation: 0.429 ms total setup, 1,088B ciphertext"),
+        ("2. Authenticated Symmetric Telemetry Channel", "Ciphertext = AES-256-GCM_Enc(K, Incident_Record)", "High-throughput transit encryption: 0.018 ms execution, 100% tamper reject"),
+        ("3. Tamper-Evident SHA-256 Hash Chain", "h_i = SHA-256(h_{i-1} || rec_i || seq_i),  19,379 rec/s", "Append-only forensic audit trail (0.0516 ms/append) with zero blockchain lag")
+    ]
+    draw_module_card(ax, x1, y_bot, cw, ch,
+                     "STAGE 6: POST-QUANTUM & FORENSICS",
+                     "NIST PQC Transit & Hash-Chain Audit",
+                     "Quantum-Resistant Key Exchange & Immutable Logging",
+                     s6_items, c_purple)
 
-    # Card 2 -> Card 3 (Top Right down to Middle Right)
-    ax.annotate("", xy=(11.6, 4.95), xytext=(11.6, 5.75), arrowprops=arrow_style)
-    ax.text(12.35, 5.35, "Raw Alerts\nyt = 1\n(74,453 flows)", ha='center', fontsize=7.8, fontweight='bold', color='#b45309')
+    # -------------------------------------------------------------
+    # PIPELINE CONNECTING ARROWS & DATA LABELS
+    # -------------------------------------------------------------
+    # Forward Arrow 1 -> 2 (Top Left to Top Mid)
+    ax.annotate("", xy=(x2 - 0.05, y_top + ch/2), xytext=(x1 + cw + 0.05, y_top + ch/2),
+                arrowprops=dict(arrowstyle="-|>", color="#1e3a8a", lw=2.4, mutation_scale=18))
+    # Badge on Arrow 1->2
+    b1 = patches.FancyBboxPatch(((x1 + cw + x2)/2 - 0.45, y_top + ch/2 + 0.12), 0.9, 0.45,
+                                boxstyle="round,pad=0.04,rounding_size=0.08",
+                                linewidth=0.8, edgecolor='#93c5fd', facecolor='#eff6ff')
+    ax.add_patch(b1)
+    ax.text((x1 + cw + x2)/2, y_top + ch/2 + 0.34, "x_t in R^39\nNormalized", ha='center', va='center',
+            fontsize=7.2, fontweight='bold', color='#1e3a8a')
 
-    # Card 3 -> Card 4 (Middle Right over to Bottom Left)
-    ax.annotate("", xy=(8.15, 3.0), xytext=(8.75, 3.0), arrowprops=arrow_style)
-    ax.text(8.45, 3.35, "Prioritized\nIncidents\n(91 incidents)", ha='center', fontsize=7.8, fontweight='bold', color='#0f766e')
+    # Forward Arrow 2 -> 3 (Top Mid to Top Right)
+    ax.annotate("", xy=(x3 - 0.05, y_top + ch/2), xytext=(x2 + cw + 0.05, y_top + ch/2),
+                arrowprops=dict(arrowstyle="-|>", color="#1d4ed8", lw=2.4, mutation_scale=18))
+    # Badge on Arrow 2->3
+    b2 = patches.FancyBboxPatch(((x2 + cw + x3)/2 - 0.45, y_top + ch/2 + 0.12), 0.9, 0.45,
+                                boxstyle="round,pad=0.04,rounding_size=0.08",
+                                linewidth=0.8, edgecolor='#bfdbfe', facecolor='#eff6ff')
+    ax.add_patch(b2)
+    ax.text((x2 + cw + x3)/2, y_top + ch/2 + 0.34, "S_t in [0, 1]\nFused Score", ha='center', va='center',
+            fontsize=7.2, fontweight='bold', color='#1d4ed8')
 
-    # Card 4 -> Stop Pill
-    ax.annotate("", xy=(2.15, 2.82), xytext=(2.45, 2.82),
+    # Downward Arrow 3 -> 4 (Top Right down to Bottom Right)
+    ax.annotate("", xy=(x3 + cw/2, y_bot + ch + 0.05), xytext=(x3 + cw/2, y_top - 0.05),
+                arrowprops=dict(arrowstyle="-|>", color="#b45309", lw=2.4, mutation_scale=18))
+    # Badge on Arrow 3->4
+    b3 = patches.FancyBboxPatch((x3 + cw/2 - 0.85, (y_top + y_bot + ch)/2 - 0.28), 1.7, 0.56,
+                                boxstyle="round,pad=0.04,rounding_size=0.08",
+                                linewidth=0.8, edgecolor='#fde68a', facecolor='#fffbeb')
+    ax.add_patch(b3)
+    ax.text(x3 + cw/2, (y_top + y_bot + ch)/2, "Raw Flow Alerts: y_t = 1\n(74,453 Stream Alerts)",
+            ha='center', va='center', fontsize=7.2, fontweight='bold', color='#b45309')
+
+    # Forward Arrow 4 -> 5 (Bottom Right to Bottom Mid)
+    ax.annotate("", xy=(x2 + cw + 0.05, y_bot + ch/2), xytext=(x3 - 0.05, y_bot + ch/2),
+                arrowprops=dict(arrowstyle="-|>", color="#0f766e", lw=2.4, mutation_scale=18))
+    # Badge on Arrow 4->5
+    b4 = patches.FancyBboxPatch(((x2 + cw + x3)/2 - 0.65, y_bot + ch/2 + 0.12), 1.3, 0.45,
+                                boxstyle="round,pad=0.04,rounding_size=0.08",
+                                linewidth=0.8, edgecolor='#99f6e4', facecolor='#f0fdf4')
+    ax.add_patch(b4)
+    ax.text((x2 + cw + x3)/2, y_bot + ch/2 + 0.34, "91 Correlated Incidents\n(67 Crit, 24 High)",
+            ha='center', va='center', fontsize=7.2, fontweight='bold', color='#0f766e')
+
+    # Forward Arrow 5 -> 6 (Bottom Mid to Bottom Left)
+    ax.annotate("", xy=(x1 + cw + 0.05, y_bot + ch/2), xytext=(x2 - 0.05, y_bot + ch/2),
                 arrowprops=dict(arrowstyle="-|>", color="#15803d", lw=2.4, mutation_scale=18))
-    ax.text(2.3, 2.45, "Verified &\nContained", ha='center', fontsize=7.5, fontweight='bold', color='#15803d')
+    # Badge on Arrow 5->6
+    b5 = patches.FancyBboxPatch(((x1 + cw + x2)/2 - 0.60, y_bot + ch/2 + 0.12), 1.2, 0.45,
+                                boxstyle="round,pad=0.04,rounding_size=0.08",
+                                linewidth=0.8, edgecolor='#bbf7d0', facecolor='#f0fdf4')
+    ax.add_patch(b5)
+    ax.text((x1 + cw + x2)/2, y_bot + ch/2 + 0.34, "Mitigation Decisions\n& Verified State",
+            ha='center', va='center', fontsize=7.2, fontweight='bold', color='#15803d')
 
-    # Central Feedback / Continuous Loop Arc (like Saeed Figure 1)
-    arc_arrow = patches.FancyArrowPatch((5.3, 4.95), (5.3, 5.75),
-                                         connectionstyle="arc3,rad=-0.35",
-                                         color="#64748b", lw=1.8, linestyle="--",
-                                         arrowstyle="-|>", mutation_scale=15)
-    ax.add_patch(arc_arrow)
-    ax.text(4.4, 5.35, "Feedback &\nThreshold Cooldown", ha='center', fontsize=7.2, style='italic', color='#64748b')
+    # -------------------------------------------------------------
+    # CLOSED-LOOP FEEDBACK ARCS
+    # -------------------------------------------------------------
+    # Loop 1: RL Action (Stage 5) -> Edge Gateway Firewall (Stage 1)
+    fb1 = patches.FancyArrowPatch((x2 + 0.8, y_bot + ch + 0.05), (x1 + cw - 0.8, y_top - 0.05),
+                                  connectionstyle="arc3,rad=-0.22",
+                                  color="#dc2626", lw=2.0, linestyle="--",
+                                  arrowstyle="-|>", mutation_scale=16)
+    ax.add_patch(fb1)
+    # Badge for Feedback 1
+    fb1_box = patches.FancyBboxPatch((3.8, 5.25), 1.6, 0.48, boxstyle="round,pad=0.04,rounding_size=0.08",
+                                    linewidth=0.8, edgecolor='#fca5a5', facecolor='#fef2f2')
+    ax.add_patch(fb1_box)
+    ax.text(4.6, 5.49, "Mitigation Feedback Loop:\nDynamic IP/Port Rules", ha='center', va='center',
+            fontsize=6.8, fontweight='bold', color='#b91c1c')
+
+    # Loop 2: Temporal Correlation (Stage 4) -> Dynamic Threshold Controller (Stage 3)
+    fb2 = patches.FancyArrowPatch((x3 + 0.8, y_bot + ch + 0.05), (x3 + 0.8, y_top - 0.05),
+                                  connectionstyle="arc3,rad=0.30",
+                                  color="#6366f1", lw=2.0, linestyle="--",
+                                  arrowstyle="-|>", mutation_scale=16)
+    ax.add_patch(fb2)
+    # Badge for Feedback 2
+    fb2_box = patches.FancyBboxPatch((10.3, 5.25), 1.6, 0.48, boxstyle="round,pad=0.04,rounding_size=0.08",
+                                    linewidth=0.8, edgecolor='#c7d2fe', facecolor='#eef2ff')
+    ax.add_patch(fb2_box)
+    ax.text(11.1, 5.49, "Recalibration Signal:\nBurst Cooldown Control", ha='center', va='center',
+            fontsize=6.8, fontweight='bold', color='#4338ca')
 
     plt.tight_layout()
     fig.savefig(output_path, dpi=300, bbox_inches='tight')
     plt.close()
-    print(f"Generated humanized architecture diagram: {output_path}")
+    print(f"Successfully generated upgraded architecture diagram: {output_path}")
 
 if __name__ == '__main__':
     main()
